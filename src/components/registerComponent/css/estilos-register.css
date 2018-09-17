@@ -112,7 +112,7 @@ p {
     /* margin-top: 10px; */
 }
 
-.registro {
+.reguistro {
     width: 300px;
     height: 60px;
     background-color: rgba(0, 0, 255, 0.774);
@@ -125,7 +125,7 @@ p {
     font-size: 15px;
 }
 
-.registro:hover {
+.reguistro:hover {
     color: rgb(253, 253, 253);
     background-color: #428f8b;
 }
