@@ -21,7 +21,7 @@ fieldset {
 }
 
 .inputs{
-    width: 50%;
+    width: 25%;
     height: 38px;
     border-radius: 0px 6px 6px 0px;
     border: none;
@@ -53,9 +53,31 @@ form {
     justify-content: center;
 }
 
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.divFather{
+    height: 30px;
+}
+
+.divAnda{
+    border-radius: 6px;
+    border: 1px solid;
+    background-color: #428f8b;
+    color: white !important;
+    font-size: 12px;
+    letter-spacing: 2px;
+    width: 29%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .button{
-    width: 58%; 
-    height:38px;
+    width: 29%;
+    height: 30px;
     outline: 0px;
 }
 

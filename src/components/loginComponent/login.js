@@ -25,7 +25,12 @@ const LogIn = () => (
       <div class='basic-div'>
         <input type="submit" value="Iniciar Sesion" class="botoniniciar button" />
       </div>
-      <Link to="/register">Registro</Link>
+      <br/>
+      <div class='basic-div divFather'>
+        <div class="divAnda">
+          <Link to="/register">Registro</Link>
+        </div>
+      </div>
     </form>
   </div >
 );
