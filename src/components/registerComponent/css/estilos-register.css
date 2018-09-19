@@ -1,6 +1,6 @@
 .body {
     height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 100%;
     color: black;
     font-family: arial;
@@ -21,7 +21,7 @@ fieldset {
 }
 
 .inputs {
-    width: 50%;
+    width: 25%;
     height: 38px;
     border-radius: 0px 6px 6px 0px;
     border: none;
