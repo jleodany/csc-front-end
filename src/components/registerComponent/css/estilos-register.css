@@ -20,8 +20,8 @@ fieldset {
     /* border-radius: 10px; */
 }
 
-.inputs{
-    width: 25%;
+.inputs {
+    width: 50%;
     height: 38px;
     border-radius: 0px 6px 6px 0px;
     border: none;
@@ -53,31 +53,9 @@ form {
     justify-content: center;
 }
 
-a{
-    text-decoration: none;
-    color: white;
-}
-
-.divFather{
-    height: 30px;
-}
-
-.divAnda{
-    border-radius: 6px;
-    border: 1px solid;
-    background-color: #428f8b;
-    color: white !important;
-    font-size: 12px;
-    letter-spacing: 2px;
-    width: 29%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.button{
-    width: 29%;
-    height: 30px;
+.button {
+    width: 30%;
+    height: 38px;
     outline: 0px;
 }
 
@@ -134,7 +112,7 @@ p {
     /* margin-top: 10px; */
 }
 
-.registro {
+.reguistro {
     width: 300px;
     height: 60px;
     background-color: rgba(0, 0, 255, 0.774);
@@ -147,7 +125,7 @@ p {
     font-size: 15px;
 }
 
-.registro:hover {
+.reguistro:hover {
     color: rgb(253, 253, 253);
     background-color: #428f8b;
 }
