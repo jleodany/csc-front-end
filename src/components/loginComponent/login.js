@@ -9,7 +9,7 @@ const LogIn = () => (
   <div class='body'>
     <form action='' method='post'>
       <div class="logo-login">
-        <img src={logo} alt="Solinca" />
+        <img src={logo} alt="CSC" />
       </div>
       <br />
       <div class="row basic-div">
