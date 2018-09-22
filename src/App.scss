@@ -67,7 +67,7 @@ fieldset {
   border-radius: 6px 0px 0px 6px;
 }
 
-form {
+.form {
   display: flex !important;
   text-align: center;
   justify-content: space-evenly;
@@ -240,11 +240,5 @@ p {
   background-color: #428f8b;
 }
 
-.logo-login {
-  width: auto;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5%;
-}
+
+@import './components/Login/estilosLogin'

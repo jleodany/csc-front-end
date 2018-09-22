@@ -59,7 +59,7 @@ fieldset {
   height: 28px;
   border-radius: 6px 0px 0px 6px; }
 
-form {
+.form {
   display: flex !important;
   text-align: center;
   justify-content: space-evenly;
