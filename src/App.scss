@@ -31,7 +31,7 @@
   height: 100vh;
   width: 100%;
   color: black;
-  font-family: arial;
+  font-family: monospace;
   font-size: large;
   background: linear-gradient(to top, #3d9085, #f3f3f3);
 }
@@ -88,7 +88,7 @@ fieldset {
 
 @media (max-width: 1024px){
   .formDiv{
-    height: 40%;
+    height: 60%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -241,4 +241,10 @@ p {
 }
 
 
-@import './components/Login/estilosLogin'
+@import './components/Bandeja/Casos/estilosCasos';
+
+@import './components/Login/estilosLogin';
+
+@import './components/Bandeja/estilosBandeja';
+
+@import './components/Bandeja/Usuario/estilosUsuario';
