@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import logo from '../assets/imagenes/loginImg.png';
 import userIcon from '../assets/imagenes/user.png';
 import passIcon from '../assets/imagenes/cont.png';
@@ -70,6 +71,14 @@ class Register extends Component {
 						<div className='basic-div'>
 							<input type="submit" className="botoniniciar button" value="Registro" onClick={() => this.prueba()} />
 						</div>
+
+
+						{/* Atrás */}
+						<Link className='basic-div' to="/login">
+						<button className="botoniniciar button">
+							Atrás
+						</button>
+					  </Link>
 					</div>
 				</div>
 				{/* <input type="text" name="user" placeholder="&nbsp;&nbsp;Usuario" required />

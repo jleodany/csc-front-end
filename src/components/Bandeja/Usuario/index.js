@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import userIcon from '../../assets/imagenes/user.png';
 import passIcon from '../../assets/imagenes/cont.png';
+import { Link, Redirect } from 'react-router-dom';
 
 class Usuario extends Component {
   constructor() {
@@ -63,6 +64,15 @@ class Usuario extends Component {
               <img className="border ic icons" alt="passIcon" src={passIcon} />
               <input type="password" name="repeatpass" value={this.state.RepearPassWord} placeholder="&nbsp;&nbsp;Repetir Contraseña" className='inputs' required disabled/>
             </div>
+
+
+            {/* Modificar usuario */}
+						<Link className='basic-div' to="/bandeja/usuario">
+						<button className="botoniniciar button">
+							Modificar
+						</button>
+					  </Link>
+
           </div>
         </div>
       </div>

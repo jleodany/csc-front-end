@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Principal from './Principal';
-import Casos from './Casos';
+import Casos from './Casos/Consultar';
 import Usuario from './Usuario'
+import casosApertura from './Casos/Aperturar'
 import Logo from '../assets/imagenes/loginImg.png';
 
 class Bandeja extends Component {
@@ -27,16 +28,22 @@ class Bandeja extends Component {
             {/* if (condition) {
               
             } */}
-            <li><Link onClick={this.forceUpdate} to="/bandeja/casos">Casos</Link></li>
+            <li><Link onClick={this.forceUpdate} to="/bandeja/casos">Casos</Link>
+                <ul>
+                  <li><Link onClick={this.forceUpdate} to="/bandeja/casos/aperturar">Aperturar</Link></li>
+                  <li><Link onClick={this.forceUpdate} to="/bandeja/casos/consultar">Consultar</Link></li>
+                </ul>
+            </li>
             <li><Link onClick={this.forceUpdate} to="/bandeja/usuario">Usuario</Link></li>
-            <li><Link to="/">Casos</Link></li>
+            <li><Link to="/">Cerrar Sesión</Link></li>
           </ul>
         </nav>
         <Router>
           <div className="App main-content">
             <Route path="/bandeja/principal" component={Principal}></Route>
             {/* <Route path="/bandeja" component={Principal}></Route> */}
-            <Route path="/bandeja/casos" component={Casos}></Route>
+            <Route path="/bandeja/casos/consultar" component={Casos}></Route>
+            <Route path="/bandeja/casos/aperturar" component={casosApertura}></Route>
             <Route path="/bandeja/usuario" component={Usuario}></Route>
           </div>
         </Router>

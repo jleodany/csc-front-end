@@ -29,7 +29,7 @@ class Casos extends Component {
               <td>JoseR</td>
               <td>La ruedita de mi maus no scrollea</td>
               <td>29/09/1997</td>
-              <td>Solicitúd</td>
+              <td>Solicitud</td>
               <td><i>ver</i></td>
             </tr>
             <tr>
