@@ -12,7 +12,6 @@ class Login extends Component {
   constructor(){
     super();
     this.state = {userName: '', passWord: '', loged: false};
-
     this.growl = {};
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,6 +26,7 @@ class Login extends Component {
     this.setState({
       [name]: value
     });
+
     console.log(this.state);
   }
 
@@ -87,7 +87,7 @@ class Login extends Component {
                 {/* Password */}
                 <div className="w100 basic-div">
                   <img className="border ic icons" alt="passIcon" src={passIcon} />
-                  <input type="password" name="passWord" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' value={this.state.passWord} onChange={this.handleChange}  required />
+                  <input type="password" name="passWord" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onKeyPress={() => this.login()} value={this.state.passWord} onChange={this.handleChange}  required />
                 </div>
               </div>
 
@@ -99,7 +99,7 @@ class Login extends Component {
                 </button>
               </div>
             </div>
-
+            <br/>
             {/* Enlace para ir a registro */}
             <div className='w100 basic-div divFather'>
               <Link className='w100' to="/register">
@@ -108,6 +108,13 @@ class Login extends Component {
                 </button>
               </Link>
             </div>
+
+            <br/> 
+            {/* Olvide contraseña */}
+            <Link className='w100' to='/' value='Olvide contraseña'>
+              ¿Olvidaste tu contraseña?         
+            </Link>
+
           </div>
         </div>
         <Growl ref={(el) => this.growl = el} position="topleft"/>

@@ -1,0 +1,25 @@
+.table{
+    width: 80%;
+    background-color: #589f96;
+    height: 80%;
+    margin-top: 5%;
+    box-shadow: 0px 0px 60px black;
+    display: flex;
+    justify-content: center;
+}
+
+.textArea {
+    width: 95%;
+    height: 200px;
+    border-radius: 0px 6px 6px 0px;
+    border: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    outline: 0px;
+    padding-left: 5px;
+    margin: 0px 0px 10px 0px;
+    max-width: 95%;
+    min-width: 95%;
+    max-height: 200px;
+    min-height: 200px;
+}

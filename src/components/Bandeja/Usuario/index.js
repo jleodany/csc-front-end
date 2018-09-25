@@ -7,13 +7,13 @@ class Usuario extends Component {
   constructor() {
     super();
     this.state = {
-      nombre: "Jose",
-      apellido: "Ramirez",
-      email: "joseleodany@gmail.com",
-      telefono: "04261226405",
-      userName: "JoseR",
-      passWord: "Leodany@2909",
-      RepearPassWord: "Leodany@2909"
+      nombre: "Usuario Prueba",
+      apellido: "Usuario Prueba",
+      email: "usuarioprueba@urbe.edu.ve",
+      telefono: "04240000000",
+      userName: "UserPrueba",
+      passWord: "userPrueba",
+      RepearPassWord: "userPrueba"
     }
   }
 

@@ -20,11 +20,11 @@ class Register extends Component {
 			<div className='body'>
 				<div className='form'>
 					{/* Imagen */}
-					<div className="logo-login">
+					<div className="logo-registro">
 						<img src={logo} alt="Solinca" />
 					</div>
 
-					<div className="formDiv">
+					<div className="FormRegister">
 						{/* Nombre */}
 						<div className="w100 basic-div">
 							<img className="border ic icons" alt="userIcon" src={userIcon} />

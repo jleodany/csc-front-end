@@ -1,0 +1,20 @@
+.FormRegister {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 30%;
+    align-items: center;
+}
+
+.logo-registro {
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-registro>img {
+    height: 140px;
+}

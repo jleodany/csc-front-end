@@ -19,7 +19,7 @@
     }
     
     .nav-bar ul li {
-        padding: 5px;
+        padding: 10px;
         border-right: 1px solid white;
         display: block;
         background-color: rgb(11, 133, 133);
@@ -28,7 +28,7 @@
     // submenu
     .nav-bar li {
         text-decoration: none;
-        padding: 10px 15px;
+        padding: 15px 10px;
         display: block;
     }
     
@@ -40,6 +40,7 @@
         display: none;
         position: absolute;
         min-width: 140px;
+        padding:0px;
     }
     
     .nav-bar ul li:hover {
@@ -48,7 +49,18 @@
     
     .nav-bar li:hover>ul {
         display: block;
-    } // fin submenu
+    } 
+
+    .nav-bar li ul li{
+        position: relative;
+    }
+
+    .nav-bar ul li ul li{
+        right: 10px;
+        top: 11px;
+    }// fin submenu
+
+
     .main-content {
         height: 100vh;
         width: 100%;

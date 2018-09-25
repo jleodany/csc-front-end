@@ -62,7 +62,7 @@ fieldset {
 .form {
   display: flex !important;
   text-align: center;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-direction: column;
   width: 100%;
   height: 100%;
@@ -159,7 +159,8 @@ a {
   background-color: #428f8b;
   color: white;
   font-size: 12px;
-  letter-spacing: 2px; }
+  letter-spacing: 2px;
+  width: 100%; }
 
 .botoniniciar:hover {
   color: #fff;
@@ -211,7 +212,8 @@ p {
   margin-top: 5%;
   box-shadow: 0px 0px 60px black;
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  color: white; }
 
 .table > table {
   margin-top: 2%; }
@@ -222,7 +224,31 @@ p {
 
 .table > table > tbody > tr > td {
   max-width: 120px;
-  border: 1px solid; }
+  border: 1px solid white; }
+
+.table {
+  width: 80%;
+  background-color: #589f96;
+  height: 80%;
+  margin-top: 5%;
+  box-shadow: 0px 0px 60px black;
+  display: flex;
+  justify-content: center; }
+
+.textArea {
+  width: 95%;
+  height: 200px;
+  border-radius: 0px 6px 6px 0px;
+  border: none;
+  font-size: 12px;
+  letter-spacing: 2px;
+  outline: 0px;
+  padding-left: 5px;
+  margin: 0px 0px 10px 0px;
+  max-width: 95%;
+  min-width: 95%;
+  max-height: 200px;
+  min-height: 200px; }
 
 .logo-login {
   width: auto;
@@ -249,14 +275,14 @@ p {
   display: flex; }
 
 .nav-bar ul li {
-  padding: 5px;
+  padding: 10px;
   border-right: 1px solid white;
   display: block;
   background-color: #0b8585; }
 
 .nav-bar li {
   text-decoration: none;
-  padding: 10px 15px;
+  padding: 15px 10px;
   display: block; }
 
 .nav-bar > li {
@@ -265,13 +291,21 @@ p {
 .nav-bar li ul {
   display: none;
   position: absolute;
-  min-width: 140px; }
+  min-width: 140px;
+  padding: 0px; }
 
 .nav-bar ul li:hover {
   background-color: #88d1f0; }
 
 .nav-bar li:hover > ul {
   display: block; }
+
+.nav-bar li ul li {
+  position: relative; }
+
+.nav-bar ul li ul li {
+  right: 10px;
+  top: 11px; }
 
 .main-content {
   height: 100vh;
@@ -292,3 +326,21 @@ p {
 
 .divDataUsuario {
   height: 70%; }
+
+.FormRegister {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 30%;
+  align-items: center; }
+
+.logo-registro {
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.logo-registro > img {
+  height: 140px; }
