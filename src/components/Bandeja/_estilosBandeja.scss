@@ -2,14 +2,15 @@
         background: linear-gradient(to top, #3d9085, #f3f3f3);
         width: 100vw;
         padding: 2px;
-        margin-left: 500px;
+        // margin-left: 500px;
         float: right;
         display: flex;
         justify-content: space-between;
     }
     
     .logo {
-        height: 50px;
+        height: 70px;
+        margin-left: 20px;
     }
     
     .nav-bar ul {
@@ -40,7 +41,7 @@
         display: none;
         position: absolute;
         min-width: 140px;
-        padding:0px;
+        padding: 0px;
     }
     
     .nav-bar ul li:hover {
@@ -49,18 +50,17 @@
     
     .nav-bar li:hover>ul {
         display: block;
-    } 
-
-    .nav-bar li ul li{
+    }
+    
+    .nav-bar li ul li {
         position: relative;
     }
-
-    .nav-bar ul li ul li{
+    
+    .nav-bar ul li ul li {
         right: 10px;
-        top: 11px;
-    }// fin submenu
-
-
+        top: 13px;
+        border-right: none;
+    } // fin submenu
     .main-content {
         height: 100vh;
         width: 100%;

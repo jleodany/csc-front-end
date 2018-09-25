@@ -92,14 +92,13 @@ class Login extends Component {
               </div>
 
               {/* Botón iniciar */}
-
               <div className="w100 basic-div divFather">
                 <button className="botoniniciar button" onClick={() => this.login()}>
                   Iniciar Sesion
                 </button>
               </div>
             </div>
-            <br/>
+
             {/* Enlace para ir a registro */}
             <div className='w100 basic-div divFather'>
               <Link className='w100' to="/register">
@@ -109,7 +108,6 @@ class Login extends Component {
               </Link>
             </div>
 
-            <br/> 
             {/* Olvide contraseña */}
             <Link className='w100' to='/' value='Olvide contraseña'>
               ¿Olvidaste tu contraseña?         

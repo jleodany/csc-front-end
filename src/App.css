@@ -261,13 +261,13 @@ p {
   background: linear-gradient(to top, #3d9085, #f3f3f3);
   width: 100vw;
   padding: 2px;
-  margin-left: 500px;
   float: right;
   display: flex;
   justify-content: space-between; }
 
 .logo {
-  height: 50px; }
+  height: 70px;
+  margin-left: 20px; }
 
 .nav-bar ul {
   list-style: none;
@@ -305,7 +305,8 @@ p {
 
 .nav-bar ul li ul li {
   right: 10px;
-  top: 11px; }
+  top: 13px;
+  border-right: none; }
 
 .main-content {
   height: 100vh;

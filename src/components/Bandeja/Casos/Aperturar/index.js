@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Link, Redirect } from 'react-router-dom';
+// import { DataTable } from 'primereact/datatable';
+// import { Column } from 'primereact/column';
+// import { Link, Redirect } from 'react-router-dom';
 
 class casosApertura extends Component {
 
