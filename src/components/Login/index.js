@@ -60,7 +60,7 @@ class Login extends Component {
 
   renderRedirect = () => {
     if(this.state.loged){
-      return <Redirect to="/bandeja"/>
+      return <Redirect to="/bandeja/principal"/>
     }
   }
 

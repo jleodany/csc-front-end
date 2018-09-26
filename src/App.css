@@ -306,7 +306,8 @@ p {
 .nav-bar ul li ul li {
   right: 10px;
   top: 13px;
-  border-right: none; }
+  border-right: none;
+  border-top: 1px solid white; }
 
 .main-content {
   height: 100vh;
