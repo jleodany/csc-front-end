@@ -68,17 +68,19 @@ class Register extends Component {
 						</div>
 
 						{/* Botón registro */}
-						<div className='basic-div'>
+						<div className='w100 basic-div divFather'>
 							<input type="submit" className="botoniniciar button" value="Registro" onClick={() => this.prueba()} />
 						</div>
 
-
+						<br/>
 						{/* Atrás */}
-						<Link className='basic-div' to="/login">
-						<button className="botoniniciar button">
-							Atrás
-						</button>
-					  </Link>
+						<div className='w100 basic-div divFather'>
+							<Link className='w100' to="/login">
+								<button className="botoniniciar button">
+									Atrás
+								</button>
+							</Link>
+						</div>
 					</div>
 				</div>
 				{/* <input type="text" name="user" placeholder="&nbsp;&nbsp;Usuario" required />

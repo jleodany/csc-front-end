@@ -110,7 +110,7 @@ class Login extends Component {
 
             <br/>
             {/* Olvide contraseña */}
-            <Link className='w100' to='/' value='Olvide contraseña'>
+            <Link className='w100' to='./recuperar' value='Olvide contraseña'>
               ¿Olvidaste tu contraseña?         
             </Link>
 
