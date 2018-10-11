@@ -5,7 +5,7 @@ import logo from '../assets/imagenes/loginImg.png';
 import userIcon from '../assets/imagenes/user.png';
 import passIcon from '../assets/imagenes/cont.png';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 
 let axios = require("axios");
 
@@ -41,7 +41,7 @@ class Recuperar extends Component {
     draggable: true
   });
 
-
+  
 
   // showGrowl(message){
   //   this.growl.show(message);
@@ -95,7 +95,7 @@ class Recuperar extends Component {
                 {/* User */}
                 <div className="w100 basic-div">
                   <img className="border ic icons" alt="userIcon" src={userIcon} />
-                  <input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' required />
+                  <input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' required /> 
                 </div>
 
                 {/* Password */}

@@ -4,6 +4,7 @@ import {Growl} from 'primereact/growl';
 import logo from '../assets/imagenes/loginImg.png';
 import userIcon from '../assets/imagenes/user.png';
 import passIcon from '../assets/imagenes/cont.png';
+import { ToastContainer, toast } from 'react-toastify';
 
 let axios = require("axios");
 
@@ -11,7 +12,7 @@ class Login extends Component {
 
   constructor(){
     super();
-    this.state = {userName: '', passWord: '', loged: false};
+    this.state = {userName: '', pass: '', loged: false};
     this.growl = {};
 
     this.handleChange = this.handleChange.bind(this);
@@ -41,10 +42,11 @@ class Login extends Component {
       headers: {'content-type': 'application/json'},
       data: {
         userName: this.state.userName,
-        passWord: this.state.passWord
+        pass: this.state.pass
       }
     }).then((response) => {
-      if(response.status === 200){
+      console.log(response);
+      if(response.data.status === 200){
         const event = {
           target:{
             value: true,
@@ -52,6 +54,15 @@ class Login extends Component {
           }
         }
         this.handleChange(event);
+      }else if(response.data.status=== 400){
+        toast.error(response.data.message,{
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
       }
     }).catch(function(error){
       console.log("There was an error => ", error);
@@ -64,6 +75,12 @@ class Login extends Component {
     }
   }
 
+  // handleKeyPress = (event)=>{
+  //   if(event.keyCode === 'Enter'){
+  //     this.login();
+  //   }
+  // }
+
   render() {
     return (
       <div className="body">
@@ -74,23 +91,23 @@ class Login extends Component {
           <div className="logo-login">
             <img src={logo} alt="CSC" />
           </div>
-
+        
           <div className="formDiv">
             <div className="w100">
               <div>
                 {/* User */}
                 <div className="w100 basic-div">
                   <img className="border ic icons" alt="userIcon" src={userIcon} />
-                  <input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' value={this.state.userName} onChange={this.handleChange} required />
+                  <input type="text" name="userName" autoFocus placeholder="&nbsp;&nbsp;Usuario" className='inputs' value={this.state.userName} onChange={this.handleChange} required />
                 </div>
 
                 {/* Password */}
                 <div className="w100 basic-div">
                   <img className="border ic icons" alt="passIcon" src={passIcon} />
-                  <input type="password" name="passWord" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onKeyPress={() => this.login()} value={this.state.passWord} onChange={this.handleChange}  required />
+                  <input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' value={this.state.pass} onChange={this.handleChange} required maxLength="12"/>
                 </div>
               </div>
-
+              
               {/* Botón iniciar */}
               <div className="w100 basic-div divFather">
                 <button className="botoniniciar button" onClick={() => this.login()}>
@@ -110,12 +127,26 @@ class Login extends Component {
 
             <br/>
             {/* Olvide contraseña */}
-            <Link className='w100' to='./recuperar' value='Olvide contraseña'>
+            <Link className='w100 basic-div divFather' to='./recuperar' value='Olvide contraseña'>
               ¿Olvidaste tu contraseña?         
             </Link>
 
-          </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl
+                pauseOnVisibilityChange
+                draggable
+                pauseOnHover={false}
+                closeButton={false}
+                pauseOnFocusLoss={false}
+                />
+
         </div>
+      </div>
         <Growl ref={(el) => this.growl = el} position="topleft"/>
       </div>
     )

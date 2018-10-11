@@ -75,7 +75,7 @@ class Usuario extends Component {
 
           </div>
         </div>
-      </div>
+        </div>
     )
   }
 }
