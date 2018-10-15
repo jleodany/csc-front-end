@@ -46,21 +46,16 @@ class Register extends Component {
 		}).then((response) => {
 		  console.log(response);
 		  if(response.data.status === 200){
-			toast.success(response.data.message,{
+				toast.success(response.data.message,{
 					position: "top-right",
 					autoClose: 3000,
 					hideProgressBar: false,
 					closeOnClick: true,
 					pauseOnHover: false,
-					draggable: true
+					draggable: true,
+					onClose: this.setState({registered: true})
 				});
-			const event = {
-			  target:{
-				value: true,
-				name: 'loged'
-			  }
-			}
-			this.handleChange(event);
+			// this.handleChange(event);
 		  }else if(response.data.status=== 400){
 			toast.error(response.data.message,{
 			  position: "top-right",
@@ -68,7 +63,7 @@ class Register extends Component {
 			  hideProgressBar: false,
 			  closeOnClick: true,
 			  pauseOnHover: false,
-			  draggable: true
+				draggable: true
 			});
 		  }
 		}).catch(function(error){
@@ -77,8 +72,10 @@ class Register extends Component {
 	  }
 
 	  renderRedirect = () => {
-			if(this.state.loged){
-				return <Redirect to="/registro"/>
+			console.log("renderRedirect")
+			if(this.state.registered){
+				console.log("shouldRedirect")
+				return <Redirect to="/login"/>
 			}
 	  }
 	
@@ -86,6 +83,20 @@ class Register extends Component {
 	render() {
 		return (
 			<div className='body'>
+				{this.renderRedirect()}
+			<ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl
+                pauseOnVisibilityChange
+                draggable
+                pauseOnHover={false}
+                closeButton={false}
+                pauseOnFocusLoss={false}
+                />
 				<div className='form'>
 					{/* Imagen */}
 					<div className="logo-registro">
@@ -120,13 +131,13 @@ class Register extends Component {
 						{/* Usuario */}
 						<div className="w100 basic-div">
 							<img className="border ic icons" alt="userIcon" src={userIcon} />
-							<input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' onChange={this.handleChange} value={this.state.userName} required />
+							<input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' onChange={this.handleChange} maxLength="30" value={this.state.userName} required />
 						</div>
 
 						{/* Contraseña */}
 						<div className="w100 basic-div">
 							<img className="border ic icons" alt="passIcon" src={passIcon} />
-							<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange} value={this.state.pass} required />
+							<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange} value={this.state.pass} maxLength="12" minLength="5" required />
 						</div>
 
 						{/* repetir contraseña
@@ -135,25 +146,11 @@ class Register extends Component {
 							<input type="password" name="repeatpass" placeholder="&nbsp;&nbsp;Repetir Contraseña" className='inputs' required />
 						</div> */}
 
-						<ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl
-                pauseOnVisibilityChange
-                draggable
-                pauseOnHover={false}
-                closeButton={false}
-                pauseOnFocusLoss={false}
-                />
-
 						{/* Botón registro */}
 						<div className='w100 basic-div divFather'>
 							<input type="submit" className="botoniniciar button" value="Registro" onClick={() => this.registerUser()} />
 						</div>
-						<br/>
+					
 						{/* Atrás */}
 						<div className='w100 basic-div divFather'>
 							<Link className='w100' to="/login">
