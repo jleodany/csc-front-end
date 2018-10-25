@@ -138,11 +138,7 @@ class Register extends Component {
 						{/* Contraseña */}
 						<div className="w100 basic-div">
 							<img className="border ic icons" alt="passIcon" src={passIcon} />
-<<<<<<< HEAD
-							<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' maxLength="12" onChange={this.handleChange} value={this.state.pass} required />
-=======
 							<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange} value={this.state.pass} maxLength="12" minLength="5" required />
->>>>>>>
 						</div>
 
 						{/* repetir contraseña
@@ -155,7 +151,7 @@ class Register extends Component {
 						<div className='w100 basic-div divFather'>
 							<input type="submit" className="botoniniciar button" value="Registro" onClick={() => this.registerUser()} />
 						</div>
-					
+						<br/>
 						{/* Atrás */}
 						<div className='w100 basic-div divFather'>
 							<Link className='w100' to="/login">
