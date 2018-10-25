@@ -70,7 +70,6 @@ fieldset {
 
 .formDiv {
   height: 30%;
-  display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   width: 30%;
@@ -79,7 +78,6 @@ fieldset {
 @media (max-width: 1024px) {
   .formDiv {
     height: 32%;
-    display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     width: 40%;
@@ -88,7 +86,6 @@ fieldset {
 @media (max-width: 768px) {
   .formDiv {
     height: 32%;
-    display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     width: 50%;
@@ -97,7 +94,6 @@ fieldset {
 @media (max-width: 668px) {
   .formDiv {
     height: 32%;
-    display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     width: 70%;
@@ -250,6 +246,14 @@ p {
   max-height: 200px;
   min-height: 200px; }
 
+.formCasos {
+  display: flex !important;
+  text-align: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-items: center; }
+
 .logo-login {
   width: auto;
   height: auto;
@@ -331,7 +335,6 @@ p {
 
 .FormRegister {
   height: 70%;
-  display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   width: 30%;
@@ -346,6 +349,30 @@ p {
 
 .logo-registro > img {
   height: 140px; }
+
+@media (max-width: 1024px) {
+  .FormRegister {
+    height: 70%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 40%;
+    align-items: center; } }
+
+@media (max-width: 768px) {
+  .FormRegister {
+    height: 70%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 50%;
+    align-items: center; } }
+
+@media (max-width: 668px) {
+  .FormRegister {
+    height: 70%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 70%;
+    align-items: center; } }
 
 .Toastify__toast-container {
   z-index: 9999;

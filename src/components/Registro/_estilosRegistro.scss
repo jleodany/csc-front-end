@@ -1,6 +1,6 @@
 .FormRegister {
     height: 70%;
-    display: flex;
+    // display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     width: 30%;
@@ -18,3 +18,38 @@
 .logo-registro>img {
     height: 140px;
 }
+
+@media (max-width: 1024px) {
+    .FormRegister {
+        height: 70%;
+        // display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 40%;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .FormRegister {
+        height: 70%;
+        // display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 50%;
+        align-items: center;
+    }
+}
+
+@media (max-width: 668px) {
+    .FormRegister {
+        height: 70%;
+        // display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 70%;
+        align-items: center;
+    }
+}
+
+@media (max-height: 580px) {}

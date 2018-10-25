@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import {Growl} from 'primereact/growl';
+// import {Growl} from 'primereact/growl';
 import logo from '../assets/imagenes/loginImg.png';
 import userIcon from '../assets/imagenes/user.png';
 import passIcon from '../assets/imagenes/cont.png';
@@ -16,7 +16,7 @@ class Login extends Component {
     this.growl = {};
 
     this.handleChange = this.handleChange.bind(this);
-    this.showGrowl = this.showGrowl.bind(this);
+    // this.showGrowl = this.showGrowl.bind(this);
   }
 
   handleChange(event){
@@ -31,9 +31,9 @@ class Login extends Component {
     console.log(this.state);
   }
 
-  showGrowl(message){
-    this.growl.show(message);
-  }
+  // showGrowl(message){
+  //   this.growl.show(message);
+  // }
 
   login(){
     axios({
@@ -147,7 +147,7 @@ class Login extends Component {
 
         </div>
       </div>
-        <Growl ref={(el) => this.growl = el} position="topleft"/>
+        {/* <Growl ref={(el) => this.growl = el} position="topleft"/> */}
       </div>
     )
   }

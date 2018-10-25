@@ -13,7 +13,7 @@ class casosApertura extends Component {
   render() {
     return (
         <div className = "table"> 
-          <div className='form'>
+          <div className='formCasos'>
             <div className="formDiv">
               <div className="w100">
                   <h2>APERTURAR CASO</h2>
@@ -34,7 +34,7 @@ class casosApertura extends Component {
                   <input type="text" name="asunto" placeholder="&nbsp; &nbsp;Asunto" className='inputs'/>
 
                   {/* Descripción */}
-                  <textarea type="text" name="descripcion" placeholder="&nbsp;Escriba una descripción" className='textArea' >
+                  <textarea type="text" name="descripcion" placeholder="&nbsp;Descripción del caso" className='textArea' >
                   </textarea>
                   
                   {/* Adjuntar */}

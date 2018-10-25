@@ -125,7 +125,7 @@ class Recuperar extends Component {
                 />
               </div>
             </div>
-
+            <br/>
             {/* Atrás */}
             <div className='w100 basic-div divFather'>
               <Link className='w100' to="/login">

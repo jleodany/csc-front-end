@@ -3,6 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import logo from '../assets/imagenes/loginImg.png';
 import userIcon from '../assets/imagenes/user.png';
 import passIcon from '../assets/imagenes/cont.png';
+import emailIcon from '../assets/imagenes/email.png';
+import nameIcon from '../assets/imagenes/name.png';
 import { ToastContainer, toast } from 'react-toastify';
 
 let axios = require("axios");
@@ -80,34 +82,46 @@ class Register extends Component {
 			if(this.state.loged){
 				return <Redirect to="/registro"/>
 			}
-	  }
-	
+		}
 
 	render() {
 		return (
 			<div className='body'>
+			<ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl
+                pauseOnVisibilityChange
+                draggable
+                pauseOnHover={false}
+                closeButton={false}
+                pauseOnFocusLoss={false}
+                />
 				<div className='form'>
 					{/* Imagen */}
 					<div className="logo-registro">
 						<img src={logo} alt="Solinca" />
 					</div>
-
+					<br/>
 					<div className="FormRegister">
 						{/* Nombre */}
 						<div className="w100 basic-div">
-							<img className="border ic icons" alt="userIcon" src={userIcon} />
+							<img className="border ic icons" alt="userIcon" src={nameIcon} />
 							<input type="text" name="firstName" placeholder="&nbsp;&nbsp;Nombre" className='inputs' onChange={this.handleChange} value={this.state.firstName} required />
 						</div>
 
 						{/* Apellido */}
 						<div className="w100 basic-div">
-							<img className="border ic icons" alt="userIcon" src={userIcon} />
+							<img className="border ic icons" alt="userIcon" src={nameIcon} />
 							<input type="text" name="lastName" placeholder="&nbsp;&nbsp;Apellido" className='inputs' onChange={this.handleChange} value={this.state.lastName} required />
 						</div>
 
 						{/* Correo */}
 						<div className="w100 basic-div">
-							<img className="border ic icons" alt="userIcon" src={userIcon} />
+							<img className="border ic icons" alt="userIcon" src={emailIcon} />
 							<input type="email" name="email" placeholder="&nbsp;&nbsp;Correo" className='inputs' onChange={this.handleChange} value={this.state.email} required />
 						</div>
 
@@ -126,7 +140,7 @@ class Register extends Component {
 						{/* Contraseña */}
 						<div className="w100 basic-div">
 							<img className="border ic icons" alt="passIcon" src={passIcon} />
-							<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange} value={this.state.pass} required />
+							<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' maxLength="12" onChange={this.handleChange} value={this.state.pass} required />
 						</div>
 
 						{/* repetir contraseña
@@ -134,20 +148,6 @@ class Register extends Component {
 							<img className="border ic icons" alt="passIcon" src={passIcon} />
 							<input type="password" name="repeatpass" placeholder="&nbsp;&nbsp;Repetir Contraseña" className='inputs' required />
 						</div> */}
-
-						<ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl
-                pauseOnVisibilityChange
-                draggable
-                pauseOnHover={false}
-                closeButton={false}
-                pauseOnFocusLoss={false}
-                />
 
 						{/* Botón registro */}
 						<div className='w100 basic-div divFather'>
