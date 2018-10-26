@@ -45,8 +45,13 @@ class Casos extends Component {
                         Fecha
                       </option>
                   </select>
-
-                  <input type="text" name="numCaso" id="numCaso" class="inputs" placeholder="&nbsp; &nbsp;Número de caso"/>
+                  {
+                    this.state.value == 1 
+                    ? <input type="text" name="numCaso" id="numCaso" class="inputs" placeholder="&nbsp; &nbsp;Número de caso"/>
+                    : this.state.value == 2 
+                      ? <input type="date" name="numCaso" id="numCaso" class="inputs" placeholder="&nbsp; &nbsp;Número de caso"/>
+                      : <div></div>
+                  }
                   
                   <div className="w100 basic-div divFather">
                   <button className="botoniniciar button" onClick={this.handlePrint}>Seleccionar</button>
