@@ -30,10 +30,9 @@ class Usuario extends Component {
       method: 'get',
       url: '../getUsers',
       headers: {'content-type': 'application/json'},
-      // data: {
-      //   userName: this.state.userName,
-      //   pass: this.state.pass
-      // }
+      params: {
+        token: sessionStorage.getItem('token')
+      }
     }).then((response) => {
       console.log(response);
       if(response.data.status === 200){

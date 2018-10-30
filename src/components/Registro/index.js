@@ -43,7 +43,8 @@ class Register extends Component {
 				firstName: this.state.firstName,
 				lastName: this.state.lastName,
 				email: this.state.email,
-				type: 1
+				type: 1,
+				token: sessionStorage.getItem('token')
 		  }
 		}).then((response) => {
 		  console.log(response);

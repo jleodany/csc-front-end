@@ -6,6 +6,7 @@ import Usuario from './Usuario'
 import casosApertura from './Casos/Aperturar'
 import { Redirect } from 'react-router-dom';
 import Logo from '../assets/imagenes/loginImg.png';
+import { logOut } from "./methods";
 
 class Bandeja extends Component {
   constructor(){
@@ -17,10 +18,6 @@ class Bandeja extends Component {
     if(sessionStorage.getItem('token') == null){
       return <Redirect to="/login"/>
     }
-  }
-
-  logOut() {
-    sessionStorage.removeItem('token')
   }
 
   render() {
@@ -42,7 +39,7 @@ class Bandeja extends Component {
                 </ul>
             </li>
             <li><Link onClick={this.forceUpdate} to="/bandeja/usuario">Usuario</Link></li>
-            <li><Link to="/" onClick={this.logOut()}>Cerrar Sesión</Link></li>
+            <li><Link to="/" onClick={logOut}>Cerrar Sesión</Link></li>
           </ul>
         </nav>
         <Router>
