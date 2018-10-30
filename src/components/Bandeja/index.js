@@ -4,6 +4,7 @@ import Principal from './Principal';
 import Casos from './Casos/Consultar';
 import Usuario from './Usuario'
 import casosApertura from './Casos/Aperturar'
+import { Redirect } from 'react-router-dom';
 import Logo from '../assets/imagenes/loginImg.png';
 
 class Bandeja extends Component {
@@ -12,14 +13,20 @@ class Bandeja extends Component {
     this.state = {toShow: ''}
   }
 
-  renderBandeja = () => {
-    // if()
-    return 
+  redirectLogIn = () => {
+    if(sessionStorage.getItem('token') == null){
+      return <Redirect to="/login"/>
+    }
+  }
+
+  logOut() {
+    sessionStorage.removeItem('token')
   }
 
   render() {
     return (
       <div className="body">
+        {this.redirectLogIn()}
         <nav className="nav-bar">
           <Link onClick={this.forceUpdate} to="/bandeja/principal">
             <img src={Logo} alt="CSC" className="logo"/>
@@ -35,7 +42,7 @@ class Bandeja extends Component {
                 </ul>
             </li>
             <li><Link onClick={this.forceUpdate} to="/bandeja/usuario">Usuario</Link></li>
-            <li><Link to="/">Cerrar Sesión</Link></li>
+            <li><Link to="/" onClick={this.logOut()}>Cerrar Sesión</Link></li>
           </ul>
         </nav>
         <Router>
