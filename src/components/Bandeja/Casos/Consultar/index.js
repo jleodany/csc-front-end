@@ -19,9 +19,9 @@ class Casos extends Component {
   }
 
   handlePrint(){
-    if(this.state.value=== 1){
+    if(this.state.value== 1){
       console.log(this.state.value);
-    }else if(this.state.value===2){
+    }else if(this.state.value==2){
       console.log(this.state.value);
     }
   }
@@ -46,9 +46,9 @@ class Casos extends Component {
                       </option>
                   </select>
                   {
-                    this.state.value === 1 
+                    this.state.value == 1 
                     ? <input type="text" name="numCaso" id="numCaso" class="inputs" placeholder="&nbsp; &nbsp;Número de caso"/>
-                    : this.state.value === 2 
+                    : this.state.value == 2 
                       ? <input type="date" name="numCaso" id="numCaso" class="inputs" placeholder="&nbsp; &nbsp;Número de caso"/>
                       : <div></div>
                   }
