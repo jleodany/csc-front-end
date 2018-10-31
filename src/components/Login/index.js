@@ -76,11 +76,6 @@ class Login extends Component {
     }
   }
 
-  // handleKeyPress = (event)=>{
-  //   if(event.keyCode === 'Enter'){
-  //     this.login();
-  //   }
-  // }
 
   render() {
     return (
@@ -105,7 +100,11 @@ class Login extends Component {
                 {/* Password */}
                 <div className="w100 basic-div">
                   <img className="border ic icons" alt="passIcon" src={passIcon} />
-                  <input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' value={this.state.pass} onChange={this.handleChange} required maxLength="12"/>
+                  <input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña"  onKeyPress={(ev)=>{
+                     if (ev.key === 'Enter') {
+                      {this.login()}
+                    }
+                  }} className='inputs' value={this.state.pass} onChange={this.handleChange} required maxLength="12"/>
                 </div>
               </div>
               

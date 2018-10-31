@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import userIcon from '../../assets/imagenes/user.png';
-import passIcon from '../../assets/imagenes/cont.png';
 import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -66,7 +64,7 @@ class Usuario extends Component {
 
   render() {
     return (
-      <div className="table">
+      <div className="table-user">
         <div className="datosPersonales">
           <h1>Datos Personales</h1>
           <div className="formDiv divDataUsuario">

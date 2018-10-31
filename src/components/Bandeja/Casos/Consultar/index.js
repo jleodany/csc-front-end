@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+// import { DataTable } from 'primereact/datatable';
+// import { Column } from 'primereact/column';
 
 class Casos extends Component {
 
@@ -19,9 +19,9 @@ class Casos extends Component {
   }
 
   handlePrint(){
-    if(this.state.value== 1){
+    if(this.state.value=== 1){
       console.log(this.state.value);
-    }else if(this.state.value==2){
+    }else if(this.state.value===2){
       console.log(this.state.value);
     }
   }
@@ -38,17 +38,17 @@ class Casos extends Component {
                     {/* Selecciona opcion */}
                       <option value="0">seleccione</option>
 
-                      <option value="1">
+                      <option value={1}>
                         Número caso
                       </option>
-                      <option value="2">
+                      <option value={2}>
                         Fecha
                       </option>
                   </select>
                   {
-                    this.state.value == 1 
+                    this.state.value === 1 
                     ? <input type="text" name="numCaso" id="numCaso" class="inputs" placeholder="&nbsp; &nbsp;Número de caso"/>
-                    : this.state.value == 2 
+                    : this.state.value === 2 
                       ? <input type="date" name="numCaso" id="numCaso" class="inputs" placeholder="&nbsp; &nbsp;Número de caso"/>
                       : <div></div>
                   }
