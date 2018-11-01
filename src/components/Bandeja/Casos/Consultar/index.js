@@ -1,70 +1,120 @@
 import React, { Component } from 'react';
 // import { DataTable } from 'primereact/datatable';
 // import { Column } from 'primereact/column';
+import { ToastContainer, toast } from 'react-toastify';
+let axios = require("axios");
 
 class Casos extends Component {
 
   constructor() {
     super();
     this.state = {
-      value: 0
+      attrib: '0',
+      value: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handlePrint = this.handlePrint.bind(this);
+    this.handleChangeValue = this.handleChangeValue.bind(this);
   }
 
   handleChange(e) {
+    this.setState({ attrib: e.target.value, value: null });
+  }
+
+  handleChangeValue(e) {
+    console.log(e.target.value)
     this.setState({ value: e.target.value });
   }
 
-  handlePrint(){
-    if(this.state.value== 1){
-      console.log(this.state.value);
-    }else if(this.state.value==2){
-      console.log(this.state.value);
-    }
+  handleSearch() {
+    axios({
+      method: 'post',
+      url: '../../getCases',
+      headers: { 'content-type': 'application/json' },
+      data: {
+        params: this.state.attrib == "0" ? false : true,
+        value: this.state.attrib == "f_apertura" ? new Date(this.state.value).setHours(24, 0, 0, 0) : this.state.value,
+        attrib: this.state.attrib,
+        token: sessionStorage.getItem('token')
+      }
+    }).then((response) => {
+      console.log(response);
+      if (response.data.status === 200) {
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          onClose: this.setState({ registered: true })
+        });
+      } else if (response.data.status === 400) {
+        toast.error(response.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+      }
+    }).catch(function (error) {
+      console.log("There was an error => ", error);
+    })
   }
-
 
   render() {
     return (
-      <div className = "table"> 
-          <div className='formCasos'>
-            <div className="formDiv">
-              <div className="w100">
-                  <h2>CONSULTAR CASO</h2>
-                  <select onChange={this.handleChange} className='inputs' id="select"> 
-                    {/* Selecciona opcion */}
-                      <option value="0">seleccione</option>
+      <div className="table">
+        <div className='formCasos'>
+          <div className="formDiv">
+            <div className="w100">
+              <h2>CONSULTAR CASO</h2>
+              <select onChange={this.handleChange} className='inputs' id="select">
+                {/* Selecciona opcion */}
+                <option value="0">Todos</option>
 
-                      <option value={1}>
-                        Número caso
+                <option value="id">
+                  Número caso
                       </option>
-                      <option value={2}>
-                        Fecha
+                <option value="f_apertura">
+                  Fecha
                       </option>
-                  </select>
-                  {
-                    this.state.value == 1 
-                    ? <input type="text" name="numCaso" id="numCaso" class="inputs" placeholder="&nbsp; &nbsp;Número de caso"/>
-                    : this.state.value == 2 
-                      ? <input type="date" name="numCaso" id="numCaso" class="inputs" placeholder="&nbsp; &nbsp;Número de caso"/>
-                      : <div></div>
-                  }
-                  
-                  <div className="w100 basic-div divFather">
-                  <button className="botoniniciar button" onClick={this.handlePrint}>Seleccionar</button>
-                  </div>
+              </select>
+              {
+                this.state.attrib == "id"
+                  ? <input type="text" name="numCaso" id="numCaso" onChange={this.handleChangeValue} value={this.state.value} className="inputs" placeholder="&nbsp; &nbsp;Número de caso" />
+                  : this.state.attrib == "f_apertura"
+                    ? <input type="date" name="numCaso" id="numCaso" onChange={this.handleChangeValue} value={this.state.value} className="inputs" placeholder="&nbsp; &nbsp;Número de caso" />
+                    : <div></div>
+              }
 
-                  
-
+              <div className="w100 basic-div divFather">
+                <button className="botoniniciar button" onClick={() => this.handleSearch()}>Seleccionar</button>
               </div>
-              
+
+
+
             </div>
+
           </div>
         </div>
-                  
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover={false}
+        closeButton={false}
+        pauseOnFocusLoss={false}
+      />
+      </div>
+
 
 
 
