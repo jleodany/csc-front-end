@@ -18,7 +18,7 @@ class Casos extends Component {
   }
 
   handleChange(e) {
-    this.setState({ attrib: e.target.value, value: null });
+    this.setState({ attrib: e.target.value, value: '' });
   }
 
   handleChangeValue(e) {
@@ -44,13 +44,16 @@ class Casos extends Component {
           const casesArray = response.data.data
           casesArray.forEach(cases => {
             console.log("Cases =>", cases)
+            let date = new Date(cases.f_apertura)
+            cases.f_apertura = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
             let childrenTable = []
-            childrenTable.push(<td key={cases.idCaso}>{`${cases.idCaso}`}</td>)
-            childrenTable.push(<td key={cases.idCaso}>{`${cases.type}`}</td>)
-            childrenTable.push(<td key={cases.idCaso}>{`${cases.asunto}`}</td>)
-            childrenTable.push(<td key={cases.idCaso}>{`${cases.descripcion}`}</td>)
-            childrenTable.push(<td key={cases.idCaso}>{`${cases.f_apertura}`}</td>)
-            childrenTable.push(<td key={cases.idCaso}>{`${cases.user}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}f`}>{`${cases.idCaso}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}a`}>{`${cases.type}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}b`}>{`${cases.asunto}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}c`}>{`${cases.descripcion}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}d`}>{`${cases.f_apertura}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.user}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}g`}><button>Editar</button></td>)
             table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
           });
           console.log("cases =>", table);
@@ -120,6 +123,7 @@ class Casos extends Component {
                             <th>Descripcion</th>
                             <th>Fecha</th>
                             <th>Usuario</th>
+                            <th></th>
                           </tr>
                           {this.state.table}
                         </tbody>

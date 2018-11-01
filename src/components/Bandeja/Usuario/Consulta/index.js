@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 let axios = require("axios");
 
-class Usuario extends Component {
+class consultarUsuario extends Component {
   constructor() {
     super();
     this.growl = {};
@@ -26,7 +26,7 @@ class Usuario extends Component {
   showUsers = () => {
     axios({
       method: 'get',
-      url: '../getUsers',
+      url: '../../getUsers',
       headers: {'content-type': 'application/json'},
       params: {
         token: sessionStorage.getItem('token')
@@ -66,7 +66,7 @@ class Usuario extends Component {
     return (
       <div className="table-user">
         <div className="datosPersonales">
-          <h1>Datos Personales</h1>
+          <h1>Usuarios Registrados</h1>
           <div className="formDiv divDataUsuario">
             <table>
               <tbody>
@@ -148,4 +148,4 @@ class Usuario extends Component {
   }
 }
 
-export default Usuario;
+export default consultarUsuario;

@@ -54,6 +54,7 @@ class Login extends Component {
           }
         }
         sessionStorage.setItem('token', response.data.data.token)
+        sessionStorage.setItem('userInfo', JSON.stringify(response.data.data.userInfo))
         this.handleChange(event);
       }else if(response.data.status=== 400){
         toast.error(response.data.message,{
