@@ -40,15 +40,31 @@ class Casos extends Component {
     }).then((response) => {
       console.log(response);
       if (response.data.status === 200) {
-        toast.success(response.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          onClose: this.setState({ registered: true })
-        });
+          let table = []
+          const casesArray = response.data.data
+          casesArray.forEach(cases => {
+            console.log("Cases =>", cases)
+            let childrenTable = []
+            childrenTable.push(<td key={cases.idCaso}>{`${cases.idCaso}`}</td>)
+            childrenTable.push(<td key={cases.idCaso}>{`${cases.type}`}</td>)
+            childrenTable.push(<td key={cases.idCaso}>{`${cases.asunto}`}</td>)
+            childrenTable.push(<td key={cases.idCaso}>{`${cases.descripcion}`}</td>)
+            childrenTable.push(<td key={cases.idCaso}>{`${cases.f_apertura}`}</td>)
+            childrenTable.push(<td key={cases.idCaso}>{`${cases.user}`}</td>)
+            table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
+          });
+          console.log("cases =>", table);
+          this.setState({table: table})
+          return table
+        // toast.success(response.data.message, {
+        //   position: "top-right",
+        //   autoClose: 3000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: false,
+        //   draggable: true,
+        //   onClose: this.setState({ registered: true })
+        // });
       } else if (response.data.status === 400) {
         toast.error(response.data.message, {
           position: "top-right",
@@ -90,10 +106,26 @@ class Casos extends Component {
                     : <div></div>
               }
 
-              <div className="w100 basic-div divFather">
+              <div className="w100 basic-div divBtnCases">
                 <button className="botoniniciar button" onClick={() => this.handleSearch()}>Seleccionar</button>
               </div>
 
+                    <div className="formDivCases">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <th>N° Caso</th>
+                            <th>Tipo</th>
+                            <th>Asunto</th>
+                            <th>Descripcion</th>
+                            <th>Fecha</th>
+                            <th>Usuario</th>
+                          </tr>
+                          {this.state.table}
+                        </tbody>
+                      </table>
+
+                    </div>
 
 
             </div>

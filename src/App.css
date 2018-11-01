@@ -222,6 +222,10 @@ p {
   max-width: 120px;
   border: 1px solid white; }
 
+.formDivCases {
+  margin-top: 20px;
+  margin-left: -60px; }
+
 .table {
   width: 80%;
   background-color: #589f96;

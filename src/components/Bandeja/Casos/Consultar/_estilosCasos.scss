@@ -1,4 +1,4 @@
-.table{
+.table {
     width: 80%;
     background-color: #589f96;
     height: 80%;
@@ -9,16 +9,21 @@
     color: white;
 }
 
-.table>table{
+.table>table {
     margin-top: 2%;
 }
 
-.table>table>thead>tr>th{
+.table>table>thead>tr>th {
     padding: 5px;
     border: 1px solid white;
 }
 
-.table>table>tbody>tr>td{
+.table>table>tbody>tr>td {
     max-width: 120px;
     border: 1px solid white;
+}
+
+.formDivCases {
+    margin-top: 20px;
+    margin-left: -60px;
 }
