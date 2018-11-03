@@ -29,7 +29,7 @@ class casosApertura extends Component {
 		}
 		
 
-  createCases = () => {
+  createCases = () =>{
     axios({
       method: 'post',
       url: '../../registerCase',
@@ -51,7 +51,12 @@ class casosApertura extends Component {
 					pauseOnHover: false,
 					draggable: true,
 					onClose: this.setState({registered: true})
-				});
+        });
+        this.setState({
+          type: '',
+          asunto: '',
+          descripcion: ''
+        })
       }else if(response.data.status=== 400){
         toast.error(response.data.message,{
           position: "top-right",
@@ -76,7 +81,7 @@ class casosApertura extends Component {
             <div className="formDiv">
               <div className="w100">
                   <h2>APERTURAR CASO</h2>
-                  <select className='inputs' name="type" onChange={this.handleChange}> 
+                  <select className='inputs' name="type" value={this.state.type} onChange={this.handleChange}> 
 
                   {/* Selecciona opcion */}
                     <option value="">Elija una opción
@@ -90,10 +95,10 @@ class casosApertura extends Component {
                   </select>
 
                   {/* Asunto */}
-                  <input type="text" name="asunto" placeholder="&nbsp; &nbsp;Asunto" className='inputs' onKeyPress={this.handleChange}/>
+                  <input type="text" name="asunto" placeholder="&nbsp; &nbsp;Asunto" value={this.state.asunto} className='inputs' onChange={this.handleChange}/>
 
                   {/* Descripción */}
-                  <textarea type="text" name="descripcion" placeholder="&nbsp;Descripción del caso" className='textArea' onKeyPress={this.handleChange} >
+                  <textarea type="text" name="descripcion" placeholder="&nbsp;Descripción del caso" value={this.state.descripcion} className='textArea' onChange={this.handleChange} >
                   </textarea>
                   
                   {/* Adjuntar */}

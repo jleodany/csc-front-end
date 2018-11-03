@@ -40,25 +40,37 @@ class Casos extends Component {
     }).then((response) => {
       console.log(response);
       if (response.data.status === 200) {
-          let table = []
-          const casesArray = response.data.data
-          casesArray.forEach(cases => {
-            console.log("Cases =>", cases)
-            let date = new Date(cases.f_apertura)
-            cases.f_apertura = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
-            let childrenTable = []
-            childrenTable.push(<td key={`${cases.idCaso}f`}>{`${cases.idCaso}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}a`}>{`${cases.type}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}b`}>{`${cases.asunto}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}c`}>{`${cases.descripcion}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}d`}>{`${cases.f_apertura}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.user}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}g`}><button>Editar</button></td>)
-            table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
+        let table = []
+        const casesArray = response.data.data
+        if (casesArray.length == 0) {
+          toast.success('El usuario no posee casos asociados', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            onClose: this.setState({ registered: true })
           });
-          console.log("cases =>", table);
-          this.setState({table: table})
-          return table
+        }
+        casesArray.forEach(cases => {
+          console.log("Cases =>", cases)
+          let date = new Date(cases.f_apertura)
+          cases.f_apertura = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+          let childrenTable = []
+          childrenTable.push(<td key={`${cases.idCaso}f`}>{`${cases.idCaso}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}a`}>{`${cases.type}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}b`}>{`${cases.asunto}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}c`}>{`${cases.descripcion}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}d`}>{`${cases.f_apertura}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.user}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.operador ? cases.operador : 'No asignado'}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}g`}><button>Editar</button></td>)
+          table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
+        });
+        console.log("cases =>", table);
+        this.setState({ table: table })
+        return table
         // toast.success(response.data.message, {
         //   position: "top-right",
         //   autoClose: 3000,
@@ -113,42 +125,43 @@ class Casos extends Component {
                 <button className="botoniniciar button" onClick={() => this.handleSearch()}>Seleccionar</button>
               </div>
 
-                    <div className="formDivCases">
-                      <table>
-                        <tbody>
-                          <tr>
-                            <th>N° Caso</th>
-                            <th>Tipo</th>
-                            <th>Asunto</th>
-                            <th>Descripcion</th>
-                            <th>Fecha</th>
-                            <th>Usuario</th>
-                            <th></th>
-                          </tr>
-                          {this.state.table}
-                        </tbody>
-                      </table>
-
-                    </div>
 
 
             </div>
 
           </div>
+          <div className="tablas">
+            <table>
+              <tbody>
+                <tr>
+                  <th>N° Caso</th>
+                  <th>Tipo</th>
+                  <th>Asunto</th>
+                  <th>Descripcion</th>
+                  <th>Fecha</th>
+                  <th>Usuario</th>
+                  <th>Operador</th>
+                  <th></th>
+                </tr>
+                {this.state.table}
+              </tbody>
+            </table>
+
+          </div>
         </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl
-        pauseOnVisibilityChange
-        draggable
-        pauseOnHover={false}
-        closeButton={false}
-        pauseOnFocusLoss={false}
-      />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl
+          pauseOnVisibilityChange
+          draggable
+          pauseOnHover={false}
+          closeButton={false}
+          pauseOnFocusLoss={false}
+        />
       </div>
 
 

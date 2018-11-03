@@ -58,6 +58,16 @@ class registrarUsuario extends Component {
 					draggable: true,
 					onClose: this.setState({ registered: true })
 				});
+				this.setState({ 
+					id: null, 
+					userName: '', 
+					pass: '', 
+					firstName: '', 
+					lastName: '', 
+					email: '', 
+					type: 1, 
+					registered: false 
+				});
 				// this.handleChange(event);
 			} else if (response.data.status === 400) {
 				toast.error(response.data.message, {
@@ -78,7 +88,7 @@ class registrarUsuario extends Component {
 		console.log("renderRedirect")
 		if (this.state.registered) {
 			console.log("shouldRedirect")
-			return <Redirect to="/bandeja" />
+			// return <Redirect to="/bandeja" />
 		}
 	}
 
@@ -145,7 +155,7 @@ class registrarUsuario extends Component {
 						{/* Tipo de Usuario */}
 						<div className="w100 basic-div">
 							<img className="border ic icons" alt="userIcon" src={passIcon} />
-							<select onChange={this.handleChange} className='inputs' name='type' id="select">
+							<select onChange={this.handleChange} className='inputs' value={this.state.type} name='type' id="select">
 								{/* Selecciona opcion */}
 								<option value={1}>Administrador</option>
 								<option value={2}>Operador</option>

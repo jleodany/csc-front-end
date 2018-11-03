@@ -39,9 +39,9 @@ class consultarUsuario extends Component {
         usersArray.forEach(user => {
           console.log("User => ", user)
           let children = []
-          children.push(<td key={user.id}>{`${user.userName}`}</td>)
-          children.push(<td key={user.id}>{`${user.firstName} ${user.lastName}`}</td>)
-          children.push(<td key={user.id}>{`${user.email}`}</td>)
+          children.push(<td key={`${user.id}a`}>{`${user.userName}`}</td>)
+          children.push(<td key={`${user.id}b`}>{`${user.firstName} ${user.lastName}`}</td>)
+          children.push(<td key={`${user.id}c`}>{`${user.email}`}</td>)
           table.push(<tr key={user.id}>{children}</tr>)
         });
         console.log("table => ", table)
@@ -67,7 +67,7 @@ class consultarUsuario extends Component {
       <div className="table-user">
         <div className="datosPersonales">
           <h1>Usuarios Registrados</h1>
-          <div className="formDiv divDataUsuario">
+          <div className="formDiv tablas">
             <table>
               <tbody>
                 <tr>

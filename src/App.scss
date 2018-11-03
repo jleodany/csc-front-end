@@ -239,6 +239,13 @@ p {
     font-size: 15px;
 }
 
+.tablas{
+    height: 70%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .registro:hover {
     color: rgb(253, 253, 253);
     background-color: #428f8b;
@@ -248,6 +255,6 @@ p {
 @import './components/Bandeja/Casos/Aperturar/estilosCasosAperturar';
 @import './components/Login/estilosLogin';
 @import './components/Bandeja/estilosBandeja';
-@import './components/Bandeja/Usuario/estilosUsuario';
+@import './components/Bandeja/Usuario/Consulta/estilosUsuario';
 @import './components/Registro/estilosRegistro';
 @import './components/Recuperar/estilosRecuperar';
