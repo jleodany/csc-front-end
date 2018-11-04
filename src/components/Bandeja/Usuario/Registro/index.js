@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 let axios = require("axios");
 
-class registrarUsuario extends Component {
+class RegistrarUsuario extends Component {
 
 	constructor() {
 		super();
@@ -58,15 +58,15 @@ class registrarUsuario extends Component {
 					draggable: true,
 					onClose: this.setState({ registered: true })
 				});
-				this.setState({ 
-					id: null, 
-					userName: '', 
-					pass: '', 
-					firstName: '', 
-					lastName: '', 
-					email: '', 
-					type: 1, 
-					registered: false 
+				this.setState({
+					id: null,
+					userName: '',
+					pass: '',
+					firstName: '',
+					lastName: '',
+					email: '',
+					type: 1,
+					registered: false
 				});
 				// this.handleChange(event);
 			} else if (response.data.status === 400) {
@@ -94,8 +94,74 @@ class registrarUsuario extends Component {
 
 	render() {
 		return (
-			<div className='body'>
-				{this.renderRedirect()}
+			<div className='form'>
+				{/* Imagen */}
+				<div className="logo-registro">
+					<img src={logo} alt="Solinca" />
+				</div>
+				<br />
+				<div className="FormRegister">
+					{/* Nombre */}
+					<div className="w100 basic-div">
+						<img className="border ic icons" alt="userIcon" src={nameIcon} />
+						<input type="text" name="firstName" placeholder="&nbsp;&nbsp;Nombre" className='inputs' onChange={this.handleChange} value={this.state.firstName} required />
+					</div>
+
+					{/* Apellido */}
+					<div className="w100 basic-div">
+						<img className="border ic icons" alt="userIcon" src={nameIcon} />
+						<input type="text" name="lastName" placeholder="&nbsp;&nbsp;Apellido" className='inputs' onChange={this.handleChange} value={this.state.lastName} required />
+					</div>
+
+					{/* Correo */}
+					<div className="w100 basic-div">
+						<img className="border ic icons" alt="userIcon" src={emailIcon} />
+						<input type="email" name="email" placeholder="&nbsp;&nbsp;Correo" className='inputs' onChange={this.handleChange} value={this.state.email} required />
+					</div>
+
+					{/* Telefono */}
+					{/* <div className="w100 basic-div">
+							<img className="border ic icons" alt="userIcon" src={userIcon} />
+							<input type="number" name="telefono" placeholder="&nbsp;&nbsp;Teléfono" className='inputs' required />
+						</div> */}
+
+					{/* Usuario */}
+					<div className="w100 basic-div">
+						<img className="border ic icons" alt="userIcon" src={userIcon} />
+						<input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' onChange={this.handleChange} maxLength="30" value={this.state.userName} required />
+					</div>
+
+					{/* Contraseña */}
+					<div className="w100 basic-div">
+						<img className="border ic icons" alt="passIcon" src={passIcon} />
+						<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange} value={this.state.pass} maxLength="12" minLength="5" required />
+					</div>
+
+					{/* Tipo de Usuario */}
+					<div className="w100 basic-div">
+						<img className="border ic icons" alt="userIcon" src={passIcon} />
+						<select onChange={this.handleChange} className='inputs' value={this.state.type} name='type' id="select">
+							{/* Selecciona opcion */}
+							<option value={1}>Administrador</option>
+							<option value={2}>Operador</option>
+							<option value={3}>Cliente</option>
+						</select>
+						{/* <input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange} value={this.state.pass} maxLength="12" minLength="5" required /> */}
+					</div>
+
+					{/* repetir contraseña
+						<div className="w100 basic-div">
+							<img className="border ic icons" alt="passIcon" src={passIcon} />
+							<input type="password" name="repeatpass" placeholder="&nbsp;&nbsp;Repetir Contraseña" className='inputs' required />
+						</div> */}
+
+					{/* Botón registro */}
+					<div className='w100 basic-div divFather'>
+						<input type="submit" className="botoniniciar button" value="Registro" onClick={() => this.registerUser()} />
+					</div>
+					<br />
+					{/* Atrás */}
+				</div>
 				<ToastContainer
 					position="top-right"
 					autoClose={5000}
@@ -109,81 +175,9 @@ class registrarUsuario extends Component {
 					closeButton={false}
 					pauseOnFocusLoss={false}
 				/>
-				<div className='form'>
-					{/* Imagen */}
-					<div className="logo-registro">
-						<img src={logo} alt="Solinca" />
-					</div>
-					<br />
-					<div className="FormRegister">
-						{/* Nombre */}
-						<div className="w100 basic-div">
-							<img className="border ic icons" alt="userIcon" src={nameIcon} />
-							<input type="text" name="firstName" placeholder="&nbsp;&nbsp;Nombre" className='inputs' onChange={this.handleChange} value={this.state.firstName} required />
-						</div>
-
-						{/* Apellido */}
-						<div className="w100 basic-div">
-							<img className="border ic icons" alt="userIcon" src={nameIcon} />
-							<input type="text" name="lastName" placeholder="&nbsp;&nbsp;Apellido" className='inputs' onChange={this.handleChange} value={this.state.lastName} required />
-						</div>
-
-						{/* Correo */}
-						<div className="w100 basic-div">
-							<img className="border ic icons" alt="userIcon" src={emailIcon} />
-							<input type="email" name="email" placeholder="&nbsp;&nbsp;Correo" className='inputs' onChange={this.handleChange} value={this.state.email} required />
-						</div>
-
-						{/* Telefono */}
-						{/* <div className="w100 basic-div">
-							<img className="border ic icons" alt="userIcon" src={userIcon} />
-							<input type="number" name="telefono" placeholder="&nbsp;&nbsp;Teléfono" className='inputs' required />
-						</div> */}
-
-						{/* Usuario */}
-						<div className="w100 basic-div">
-							<img className="border ic icons" alt="userIcon" src={userIcon} />
-							<input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' onChange={this.handleChange} maxLength="30" value={this.state.userName} required />
-						</div>
-
-						{/* Contraseña */}
-						<div className="w100 basic-div">
-							<img className="border ic icons" alt="passIcon" src={passIcon} />
-							<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange} value={this.state.pass} maxLength="12" minLength="5" required />
-						</div>
-
-						{/* Tipo de Usuario */}
-						<div className="w100 basic-div">
-							<img className="border ic icons" alt="userIcon" src={passIcon} />
-							<select onChange={this.handleChange} className='inputs' value={this.state.type} name='type' id="select">
-								{/* Selecciona opcion */}
-								<option value={1}>Administrador</option>
-								<option value={2}>Operador</option>
-								<option value={3}>Cliente</option>
-							</select>
-							{/* <input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange} value={this.state.pass} maxLength="12" minLength="5" required /> */}
-						</div>
-
-						{/* repetir contraseña
-						<div className="w100 basic-div">
-							<img className="border ic icons" alt="passIcon" src={passIcon} />
-							<input type="password" name="repeatpass" placeholder="&nbsp;&nbsp;Repetir Contraseña" className='inputs' required />
-						</div> */}
-
-						{/* Botón registro */}
-						<div className='w100 basic-div divFather'>
-							<input type="submit" className="botoniniciar button" value="Registro" onClick={() => this.registerUser()} />
-						</div>
-						<br />
-						{/* Atrás */}
-					</div>
-				</div>
-				{/* <input type="text" name="user" placeholder="&nbsp;&nbsp;Usuario" required />
-                <button value="probar" onClick={() => this.prueba() }>Probar</button> */}
 			</div>
-
 		)
 	}
 }
 
-export default registrarUsuario;
+export default RegistrarUsuario;

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 let axios = require("axios");
 
-class Casos extends Component {
+class ConsultarCasos extends Component {
 
   constructor() {
     super();
@@ -56,7 +56,7 @@ class Casos extends Component {
         casesArray.forEach(cases => {
           console.log("Cases =>", cases)
           let date = new Date(cases.f_apertura)
-          cases.f_apertura = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+          cases.f_apertura = `${date.getDate()}-${(date.getMonth()+1)}-${date.getFullYear()}`
           let childrenTable = []
           childrenTable.push(<td key={`${cases.idCaso}f`}>{`${cases.idCaso}`}</td>)
           childrenTable.push(<td key={`${cases.idCaso}a`}>{`${cases.type}`}</td>)
@@ -64,7 +64,7 @@ class Casos extends Component {
           childrenTable.push(<td key={`${cases.idCaso}c`}>{`${cases.descripcion}`}</td>)
           childrenTable.push(<td key={`${cases.idCaso}d`}>{`${cases.f_apertura}`}</td>)
           childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.user}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.operador ? cases.operador : 'No asignado'}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}h`}>{`${cases.operador ? cases.operador : 'No asignado'}`}</td>)
           childrenTable.push(<td key={`${cases.idCaso}g`}><button>Editar</button></td>)
           table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
         });
@@ -97,7 +97,7 @@ class Casos extends Component {
 
   render() {
     return (
-      <div className="table">
+      <div className="datosPersonales">
         <div className='formCasos'>
           <div className="formDiv">
             <div className="w100">
@@ -163,53 +163,8 @@ class Casos extends Component {
           pauseOnFocusLoss={false}
         />
       </div>
-
-
-
-
-      // {/* <div className="table">
-      // <h2>CONSULTAR CASO:</h2>
-      //   {/* <table>
-      //     <thead>
-      //       <tr>
-      //         <th>Número de Caso</th>
-      //         <th>Creador</th>
-      //         <th>Asunto</th>
-      //         <th>Fecha de Apertura</th>
-      //         <th>Tipo</th>
-      //         <th>Opciones</th>
-      //       </tr>
-      //     </thead>
-      //     <tbody>
-      //       <tr>
-      //         <td>123456</td>
-      //         <td>JoseR</td>
-      //         <td>La ruedita de mi maus no scrollea</td>
-      //         <td>29/09/1997</td>
-      //         <td>Solicitud</td>
-      //         <td><i>ver</i></td>
-      //       </tr>
-      //       <tr>
-      //         <td>789101</td>
-      //         <td>LeuriR</td>
-      //         <td>Mi pc está haciendo un ruido extraño</td>
-      //         <td>20/11/2007</td>
-      //         <td>Requerimiento</td>
-      //         <td><i>Ver / Modificar</i></td>
-      //       </tr>
-      //     </tbody>
-      //   </table> */}
-      //   {/* <DataTable value={this.state}>
-      //     <Column field="vin" header="Vin" />
-      //     <Column field="vin" header="Vin" />
-      //     <Column field="vin" header="Vin" />
-      //     <Column field="vin" header="Vin" />
-      //     <Column field="vin" header="Vin" />
-      //     <Column field="vin" header="Vin" />
-      //   </DataTable> */}
-      // </div> */}
     )
   }
 }
 
-export default Casos;
+export default ConsultarCasos;

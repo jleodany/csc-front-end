@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-// import { DataTable } from 'primereact/datatable';
-// import { Column } from 'primereact/column';
-// import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 let axios = require("axios");
 
-class casosApertura extends Component {
+class AperturarCaso extends Component {
 
   constructor() {
     super();
@@ -76,7 +73,7 @@ class casosApertura extends Component {
   
   render() {
     return (
-        <div className = "table"> 
+        <div className = "datosPersonales"> 
           <div className='formCasos'>
             <div className="formDiv">
               <div className="w100">
@@ -133,4 +130,4 @@ class casosApertura extends Component {
   }
 }
 
-export default casosApertura;
+export default AperturarCaso;
