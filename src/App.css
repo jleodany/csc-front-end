@@ -232,6 +232,20 @@ p {
   margin-top: 20px;
   margin-left: -60px; }
 
+.divbtnXIcon {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; }
+
+.btnXIcon {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer; }
+
+.imgXIcon {
+  height: 30px; }
+
 .table {
   width: 80%;
   background-color: #589f96;

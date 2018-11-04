@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import { DataTable } from 'primereact/datatable';
 // import { Column } from 'primereact/column';
 import { ToastContainer, toast } from 'react-toastify';
+import ModificarCaso from './Modificar'
+import xIcon from '../../../assets/imagenes/x-mark.png'
 let axios = require("axios");
 
 class ConsultarCasos extends Component {
@@ -10,7 +12,8 @@ class ConsultarCasos extends Component {
     super();
     this.state = {
       attrib: '0',
-      value: ''
+      value: '',
+      caseToEdit: null
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,6 +27,15 @@ class ConsultarCasos extends Component {
   handleChangeValue(e) {
     console.log(e.target.value)
     this.setState({ value: e.target.value });
+  }
+
+  toEdit(caseToEdit) {
+    this.setState({caseToEdit: caseToEdit})
+  }
+
+  closeEdit(){
+    this.setState({caseToEdit: null})
+    this.handleSearch()
   }
 
   handleSearch() {
@@ -56,30 +68,21 @@ class ConsultarCasos extends Component {
         casesArray.forEach(cases => {
           console.log("Cases =>", cases)
           let date = new Date(cases.f_apertura)
-          cases.f_apertura = `${date.getDate()}-${(date.getMonth()+1)}-${date.getFullYear()}`
+          cases.f_apertura = `${date.getDate()}-${(date.getMonth() + 1)}-${date.getFullYear()}`
           let childrenTable = []
           childrenTable.push(<td key={`${cases.idCaso}f`}>{`${cases.idCaso}`}</td>)
           childrenTable.push(<td key={`${cases.idCaso}a`}>{`${cases.type}`}</td>)
           childrenTable.push(<td key={`${cases.idCaso}b`}>{`${cases.asunto}`}</td>)
           childrenTable.push(<td key={`${cases.idCaso}c`}>{`${cases.descripcion}`}</td>)
           childrenTable.push(<td key={`${cases.idCaso}d`}>{`${cases.f_apertura}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.user}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}h`}>{`${cases.operador ? cases.operador : 'No asignado'}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}g`}><button>Editar</button></td>)
+          childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.userName}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}h`}>{`${cases.operador ? cases.operadorName : 'No asignado'}`}</td>)
+          childrenTable.push(<td key={`${cases.idCaso}g`}><button onClick={() => this.toEdit(cases)}>Editar</button></td>)
           table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
         });
         console.log("cases =>", table);
         this.setState({ table: table })
         return table
-        // toast.success(response.data.message, {
-        //   position: "top-right",
-        //   autoClose: 3000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: false,
-        //   draggable: true,
-        //   onClose: this.setState({ registered: true })
-        // });
       } else if (response.data.status === 400) {
         toast.error(response.data.message, {
           position: "top-right",
@@ -98,7 +101,13 @@ class ConsultarCasos extends Component {
   render() {
     return (
       <div className="datosPersonales">
-        <div className='formCasos'>
+      {
+        this.state.caseToEdit ? <div className='divbtnXIcon'><button onClick={() => this.closeEdit()} className='btnXIcon'><img src={xIcon} className='imgXIcon'></img> </button></div>
+        : null
+      }
+      {
+        this.state.caseToEdit ? <ModificarCaso caseToEdit={this.state.caseToEdit}/>
+        : <div className='formCasos'>
           <div className="formDiv">
             <div className="w100">
               <h2>CONSULTAR CASO</h2>
@@ -148,20 +157,21 @@ class ConsultarCasos extends Component {
             </table>
 
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl
+            pauseOnVisibilityChange
+            draggable
+            pauseOnHover={false}
+            closeButton={false}
+            pauseOnFocusLoss={false}
+          />
         </div>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl
-          pauseOnVisibilityChange
-          draggable
-          pauseOnHover={false}
-          closeButton={false}
-          pauseOnFocusLoss={false}
-        />
+      }
       </div>
     )
   }
