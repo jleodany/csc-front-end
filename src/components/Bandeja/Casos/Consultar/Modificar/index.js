@@ -17,7 +17,7 @@ class ModificarCaso extends Component {
     }
     console.log(this.state)
     this.handleChange = this.handleChange.bind(this);
-    if(this.state.type == 1){
+    if(JSON.parse(sessionStorage.getItem('userInfo')).type == 1){
       this.getOperators()
     }
   }
@@ -140,12 +140,13 @@ class ModificarCaso extends Component {
     }else if(this.state.type && this.state.asunto && this.state.descripcion){
     axios({
       method: 'post',
-      url: '../../../registerCase',
+      url: '../../../modifyCase',
       headers: { 'content-type': 'application/json' },
       data: {
         asunto: this.state.asunto,
         descripcion: this.state.descripcion,
         type: this.state.type,
+        idCaso: this.state.idCaso,
         token: sessionStorage.getItem('token')
       }
     }).then((response) => {
@@ -160,11 +161,6 @@ class ModificarCaso extends Component {
           draggable: true,
           onClose: this.setState({ registered: true })
         });
-        this.setState({
-          type: '',
-          asunto: '',
-          descripcion: ''
-        })
       } else if (response.data.status === 400) {
         toast.error(response.data.message, {
           position: "top-right",
