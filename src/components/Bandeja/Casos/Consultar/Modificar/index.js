@@ -12,12 +12,14 @@ class ModificarCaso extends Component {
       asunto: this.props.caseToEdit.asunto,
       descripcion: this.props.caseToEdit.descripcion,
       idCaso: this.props.caseToEdit.idCaso,
-      operador: '',
+      operador: this.props.caseToEdit.operador,
       operators: <option></option>
     }
     console.log(this.state)
     this.handleChange = this.handleChange.bind(this);
-    this.getOperators()
+    if(this.state.type == 1){
+      this.getOperators()
+    }
   }
 
   handleChange(event) {
@@ -45,11 +47,48 @@ class ModificarCaso extends Component {
         const usersInfo = response.data.data
         let operators = []
         usersInfo.forEach(user => {
-          if(user.type == 2){
+          if (user.type == 2) {
             operators.push(<option key={user.id} value={user.id}>{`${user.userName}`}</option>)
           }
         });
-        this.setState({operators: operators})
+        this.setState({ operators: operators })
+      } else if (response.data.status === 400) {
+        toast.error(response.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+      }
+    }).catch(function (error) {
+      console.log("There was an error => ", error);
+    })
+  }
+
+  asignAgent = () => {
+    axios({
+      method: 'post',
+      url: '../../../asignOperator',
+      headers: { 'content-type': 'application/json' },
+      data: {
+        idCaso: this.state.idCaso,
+        idOperador: this.state.operador,
+        token: sessionStorage.getItem('token')
+      }
+    }).then((response) => {
+      console.log(response);
+      if (response.data.status === 200) {
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          onClose: this.setState({ registered: true })
+        });
       } else if (response.data.status === 400) {
         toast.error(response.data.message, {
           position: "top-right",
@@ -130,10 +169,14 @@ class ModificarCaso extends Component {
             <textarea type="text" name="descripcion" placeholder="&nbsp;Descripción del caso" value={this.state.descripcion} className='textArea' onChange={this.handleChange} >
             </textarea>
             {
-              JSON.parse(sessionStorage.getItem('userInfo')).type == 1 ? <select className='inputs'>
-                <option value={null}>No Asignado</option>
-                {this.state.operators}
-              </select>
+              JSON.parse(sessionStorage.getItem('userInfo')).type == 1 ?
+                <div className='basic-div'>
+                  <select className='inputs' name="operador" value={this.state.operador} onChange={this.handleChange}>
+                    <option value={null}>No Asignado</option>
+                    {this.state.operators}
+                  </select>
+                  <input type="submit" className="botoniniciar button" value="Asignar" onClick={this.asignAgent} />
+                </div>
                 : null
             }
             {/* Adjuntar */}
