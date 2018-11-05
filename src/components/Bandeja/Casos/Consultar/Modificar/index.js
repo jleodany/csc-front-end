@@ -13,11 +13,13 @@ class ModificarCaso extends Component {
       descripcion: this.props.caseToEdit.descripcion,
       idCaso: this.props.caseToEdit.idCaso,
       operador: this.props.caseToEdit.operador,
+      user: this.props.caseToEdit.user,
+      status: this.props.caseToEdit.status,
       operators: <option></option>
     }
     console.log(this.state)
     this.handleChange = this.handleChange.bind(this);
-    if(JSON.parse(sessionStorage.getItem('userInfo')).type == 1){
+    if (JSON.parse(sessionStorage.getItem('userInfo')).type == 1) {
       this.getOperators()
     }
   }
@@ -104,48 +106,13 @@ class ModificarCaso extends Component {
     })
   }
 
-  modificateCase = () => {
-    if(! toast.isActive(this.toastId)){
-    if(!this.state.type){
-      toast.error('Selecciones un tipo',{
-      toastId:"errorMsg",
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true
-    });
-  }else if(!this.state.asunto){
-    toast.error('Ingrese un asunto',{
-      toastId:"errorMsg2",
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true
-    });
-  
-}else if(!this.state.descripcion){
-    toast.error('Ingrese una descripción',{
-      toastId:"errorMsg3",
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true
-    });
-    }else if(this.state.type && this.state.asunto && this.state.descripcion){
+  changeStatus(status) {
     axios({
       method: 'post',
-      url: '../../../modifyCase',
+      url: '../../../changeStatus',
       headers: { 'content-type': 'application/json' },
       data: {
-        asunto: this.state.asunto,
-        descripcion: this.state.descripcion,
-        type: this.state.type,
+        status: status,
         idCaso: this.state.idCaso,
         token: sessionStorage.getItem('token')
       }
@@ -161,6 +128,7 @@ class ModificarCaso extends Component {
           draggable: true,
           onClose: this.setState({ registered: true })
         });
+        this.setState({status: status})
       } else if (response.data.status === 400) {
         toast.error(response.data.message, {
           position: "top-right",
@@ -175,8 +143,81 @@ class ModificarCaso extends Component {
       console.log("There was an error => ", error);
     })
   }
+
+  modificateCase = () => {
+    if (!toast.isActive(this.toastId)) {
+      if (!this.state.type) {
+        toast.error('Selecciones un tipo', {
+          toastId: "errorMsg",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+      } else if (!this.state.asunto) {
+        toast.error('Ingrese un asunto', {
+          toastId: "errorMsg2",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+
+      } else if (!this.state.descripcion) {
+        toast.error('Ingrese una descripción', {
+          toastId: "errorMsg3",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+      } else if (this.state.type && this.state.asunto && this.state.descripcion) {
+        axios({
+          method: 'post',
+          url: '../../../modifyCase',
+          headers: { 'content-type': 'application/json' },
+          data: {
+            asunto: this.state.asunto,
+            descripcion: this.state.descripcion,
+            type: this.state.type,
+            idCaso: this.state.idCaso,
+            token: sessionStorage.getItem('token')
+          }
+        }).then((response) => {
+          console.log(response);
+          if (response.data.status === 200) {
+            toast.success(response.data.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              onClose: this.setState({ registered: true })
+            });
+          } else if (response.data.status === 400) {
+            toast.error(response.data.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true
+            });
+          }
+        }).catch(function (error) {
+          console.log("There was an error => ", error);
+        })
+      }
+    }
   }
-  }
+
   render() {
     return (
       <div className='formCasos'>
@@ -213,9 +254,20 @@ class ModificarCaso extends Component {
             {/* Adjuntar */}
             <input type="file" name="adjuntar" className='inputs' />
             {/* Botón registro */}
-            <div className='basic-div'>
-              <input type="submit" className="botoniniciar button" value="Modificar" onClick={this.modificateCase} />
-            </div>
+            {
+              this.state.user == JSON.parse(sessionStorage.getItem('userInfo')).id ? <div className='basic-div'>
+                <input type="submit" className="botoniniciar button" value="Modificar" onClick={this.modificateCase} />
+              </div>
+                : this.state.operador == JSON.parse(sessionStorage.getItem('userInfo')).id ?
+                  <div className='basic-div'>
+                    <div className='basic-div'>
+                      <input type="submit" className="botoniniciar button" value="Completar" onClick={() => this.changeStatus('FINALIZADO')} />
+                    </div>
+                    <div className='basic-div'>
+                      <input type="submit" className="botoniniciar button" value="Rechazar" onClick={() => this.changeStatus('RECHAZADO')} />
+                    </div>
+                  </div> : null
+            }
           </div>
           <ToastContainer
             position="top-right"

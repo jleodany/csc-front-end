@@ -10,72 +10,68 @@ let axios = require("axios");
 
 class Recuperar extends Component {
 
-  // constructor(){
-  //   super();
-  //   this.state = {userName: '', passWord: '', loged: false};
-  //   this.growl = {};
+  constructor(){
+    super();
+    this.state = {userName: null};
+    this.growl = {};
+    this.handleChange = this.handleChange.bind(this);
+  }
 
-  //   this.handleChange = this.handleChange.bind(this);
-  //   this.showGrowl = this.showGrowl.bind(this);
-  // }
+  handleChange(event){
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    // Debe estar, para que se actualice el valor de la variable.
+    this.setState({
+      [name]: value
+    });
 
-  // handleChange(event){
-  //   const target = event.target;
-  //   const value = target.value;
-  //   const name = target.name;
-  //   // Debe estar, para que se actualice el valor de la variable.
-  //   this.setState({
-  //     [name]: value
-  //   });
+    console.log(this.state);
+  }
 
-  //   console.log(this.state);
-  // }
-
-  notify = () => toast('Mensaje enviado a su correo, verifique',{
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true
-  });
-
-  
-
-  // showGrowl(message){
-  //   this.growl.show(message);
-  // }
-
-  // login(){
-  //   axios({
-  //     method: 'post',
-  //     url: 'login',
-  //     headers: {'content-type': 'application/json'},
-  //     data: {
-  //       userName: this.state.userName,
-  //       passWord: this.state.passWord
-  //     }
-  //   }).then((response) => {
-  //     if(response.status === 200){
-  //       const event = {
-  //         target:{
-  //           value: true,
-  //           name: 'loged'
-  //         }
-  //       }
-  //       this.handleChange(event);
-  //       this.notify();
-  //     }
-  //   }).catch(function(error){
-  //     console.log("There was an error => ", error);
-  //   })
-  // }
-
-  // renderRedirect = () => {
-  //   if(this.state.loged){
-  //     return <Redirect to="/bandeja/principal"/>
-  //   }
-  // }
+  notify = () => {
+      axios({
+        method: 'post',
+        url: 'changePass',
+        headers: {'content-type': 'application/json'},
+        data: {
+          userName: this.state.userName
+        }
+      }).then((response) => {
+        if(response.data.status === 200){
+          toast.success(response.data.message, {
+            toastId: "sucssMsg",
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            onClose: this.setState({ registered: true })
+          });
+          this.setState({userName: ''})
+        } else {
+          toast.error(response.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true
+          });
+        }
+      }).catch(function(error){
+        console.log("There was an error => ", error);
+      })
+    // toast('Mensaje enviado a su correo, verifique',{
+    //   position: "top-right",
+    //   autoClose: 3000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: false,
+    //   draggable: true
+    // });
+  }
 
   render() {
     return (
@@ -94,14 +90,8 @@ class Recuperar extends Component {
                 {/* User */}
                 <div className="w100 basic-div">
                   <img className="border ic icons" alt="userIcon" src={userIcon} />
-                  <input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' required /> 
+                  <input type="text" name="userName" value={this.state.userName} onChange={this.handleChange} placeholder="&nbsp;&nbsp;Usuario" className='inputs' required /> 
                 </div>
-
-                {/* Password */}
-                {/* <div className="w100 basic-div">
-                  <img className="border ic icons" alt="passIcon" src={passIcon} />
-                  <input type="password" name="passWord" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onKeyPress={() => this.login()} value={this.state.passWord} onChange={this.handleChange}  required />
-                </div> */}
               </div>
 
               {/* Enviar correo */}

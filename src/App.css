@@ -158,6 +158,14 @@ a {
   letter-spacing: 2px;
   width: 100%; }
 
+.botoneliminar {
+  background-color: #9c2727;
+}
+
+.botoneliminar:hover {
+  background-color: #c74040 !important;
+}
+
 .botoniniciar:hover {
   color: #fff;
   border-color: #ffffff;
@@ -373,10 +381,12 @@ p {
 
 th {
   padding: 5px;
+  background-color: #095050;
   border: 1px solid white; }
 
 td {
   max-width: auto;
+  background-color: #356f6f;
   border: 1px solid white; }
 
 .FormRegister {
@@ -392,6 +402,11 @@ td {
   display: flex;
   align-items: center;
   justify-content: center; }
+
+.main{
+  width: 100%;
+  height: 100%;
+}
 
 .logo-registro > img {
   height: 140px; }

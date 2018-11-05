@@ -39,66 +39,80 @@ class ConsultarCasos extends Component {
   }
 
   handleSearch() {
-    axios({
-      method: 'post',
-      url: '../../getCases',
-      headers: { 'content-type': 'application/json' },
-      data: {
-        params: this.state.attrib == "0" ? false : true,
-        value: this.state.attrib == "f_apertura" ? new Date(this.state.value).setHours(24, 0, 0, 0) : this.state.value,
-        attrib: this.state.attrib,
-        token: sessionStorage.getItem('token')
-      }
-    }).then((response) => {
-      console.log(response);
-      if(! toast.isActive(this.toastId)){
-        let table = []
-        const casesArray = response.data.data
-      if (response.data.status === 200) {
-        if (casesArray.length == 0) {
-          toast.error('El usuario no posee casos asociados', {
-            toastId:"errorMsg",
+    if(this.state.attrib != '0' && (this.state.value == null || this.state.value == '')){
+      toast.error('Debe ingresar el valor para buscar', {
+        toastId:"errorMsg",
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        onClose: this.setState({ registered: true })
+      });
+    } else {
+      axios({
+        method: 'post',
+        url: '../../getCases',
+        headers: { 'content-type': 'application/json' },
+        data: {
+          params: this.state.attrib == "0" ? false : true,
+          value: this.state.attrib == "f_apertura" ? new Date(this.state.value).setHours(24, 0, 0, 0) : this.state.value,
+          attrib: this.state.attrib,
+          token: sessionStorage.getItem('token')
+        }
+      }).then((response) => {
+        console.log(response);
+        if(! toast.isActive(this.toastId)){
+          let table = []
+          const casesArray = response.data.data
+        if (response.data.status === 200) {
+          if (casesArray.length == 0) {
+            toast.error('El usuario no posee casos asociados', {
+              toastId:"errorMsg",
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              onClose: this.setState({ registered: true })
+            });
+          }
+        }
+          casesArray.forEach(cases => {
+            console.log("Cases =>", cases)
+            let date = new Date(cases.f_apertura)
+            cases.f_apertura = `${date.getDate()}-${(date.getMonth() + 1)}-${date.getFullYear()}`
+            let childrenTable = []
+            childrenTable.push(<td key={`${cases.idCaso}f`}>{`${cases.idCaso}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}a`}>{`${cases.type}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}b`}>{`${cases.asunto}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}c`}>{`${cases.descripcion}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}d`}>{`${cases.f_apertura}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.userName}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}h`}>{`${cases.operador ? cases.operadorName : 'No asignado'}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}i`}>{`${cases.status}`}</td>)
+            childrenTable.push(<td key={`${cases.idCaso}g`}><button className='botoniniciar button' onClick={() => this.toEdit(cases)}>Editar</button></td>)
+            table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
+          });
+          console.log("cases =>", table);
+          this.setState({ table: table })
+          return table
+        } else if (response.data.status === 400) {
+          toast.error(response.data.message, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
-            draggable: true,
-            onClose: this.setState({ registered: true })
+            draggable: true
           });
         }
-      }
-        casesArray.forEach(cases => {
-          console.log("Cases =>", cases)
-          let date = new Date(cases.f_apertura)
-          cases.f_apertura = `${date.getDate()}-${(date.getMonth() + 1)}-${date.getFullYear()}`
-          let childrenTable = []
-          childrenTable.push(<td key={`${cases.idCaso}f`}>{`${cases.idCaso}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}a`}>{`${cases.type}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}b`}>{`${cases.asunto}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}c`}>{`${cases.descripcion}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}d`}>{`${cases.f_apertura}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.userName}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}h`}>{`${cases.operador ? cases.operadorName : 'No asignado'}`}</td>)
-          childrenTable.push(<td key={`${cases.idCaso}g`}><button onClick={() => this.toEdit(cases)}>Editar</button></td>)
-          table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
-        });
-        console.log("cases =>", table);
-        this.setState({ table: table })
-        return table
-      } else if (response.data.status === 400) {
-        toast.error(response.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true
-        });
-      }
-    }).catch(function (error) {
-      console.log("There was an error => ", error);
-    })
+      }).catch(function (error) {
+        console.log("There was an error => ", error);
+      })
+    }
   }
 
   render() {
@@ -118,7 +132,7 @@ class ConsultarCasos extends Component {
                 {/* Selecciona opcion */}
                 <option value="0">Todos</option>
 
-                <option value="id">
+                <option value="idCaso">
                   Número caso
                       </option>
                 <option value="f_apertura">
@@ -126,7 +140,7 @@ class ConsultarCasos extends Component {
                       </option>
               </select>
               {
-                this.state.attrib == "id"
+                this.state.attrib == "idCaso"
                   ? <input type="text" name="numCaso" id="numCaso" onChange={this.handleChangeValue} value={this.state.value} className="inputs" placeholder="&nbsp; &nbsp;Número de caso" />
                   : this.state.attrib == "f_apertura"
                     ? <input type="date" name="numCaso" id="numCaso" onChange={this.handleChangeValue} value={this.state.value} className="inputs" placeholder="&nbsp; &nbsp;Número de caso" />
@@ -153,7 +167,8 @@ class ConsultarCasos extends Component {
                   <th>Fecha</th>
                   <th>Usuario</th>
                   <th>Operador</th>
-                  <th></th>
+                  <th>Estado</th>
+                  <th>Opciones</th>
                 </tr>
                 {this.state.table}
               </tbody>
