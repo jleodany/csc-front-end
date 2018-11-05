@@ -22,11 +22,45 @@ class AperturarCaso extends Component {
 		this.setState({
 		  [name]: value
 		});
-			console.log(this.state);
+      console.log(this.state);
 		}
-		
 
   createCases = () =>{
+    if(! toast.isActive(this.toastId)){
+        if(!this.state.type){
+          toast.error('Selecciones un tipo',{
+          toastId:"errorMsg",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+      }else if(!this.state.asunto){
+        toast.error('Ingrese un asunto',{
+          toastId:"errorMsg2",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+      
+    }else if(!this.state.descripcion){
+        toast.error('Ingrese una descripción',{
+          toastId:"errorMsg3",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+        }
+      
+    else if(this.state.type && this.state.asunto && this.state.descripcion){
     axios({
       method: 'post',
       url: '../../registerCase',
@@ -39,8 +73,10 @@ class AperturarCaso extends Component {
       }
     }).then((response) => {
       console.log(response);
+      if(! toast.isActive(this.toastId)){
       if(response.data.status === 200){
 				toast.success(response.data.message,{
+          toastId:"succsMsg",
 					position: "top-right",
 					autoClose: 3000,
 					hideProgressBar: false,
@@ -56,6 +92,7 @@ class AperturarCaso extends Component {
         })
       }else if(response.data.status=== 400){
         toast.error(response.data.message,{
+          toastId:"errorMsg",
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -64,12 +101,13 @@ class AperturarCaso extends Component {
           draggable: true
         });
       }
+    }
     }).catch(function(error){
       console.log("There was an error => ", error);
     })
   }
-
-
+  }
+  }
   
   render() {
     return (

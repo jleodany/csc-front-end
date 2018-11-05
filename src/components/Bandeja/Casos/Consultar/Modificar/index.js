@@ -105,6 +105,39 @@ class ModificarCaso extends Component {
   }
 
   modificateCase = () => {
+    if(! toast.isActive(this.toastId)){
+    if(!this.state.type){
+      toast.error('Selecciones un tipo',{
+      toastId:"errorMsg",
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true
+    });
+  }else if(!this.state.asunto){
+    toast.error('Ingrese un asunto',{
+      toastId:"errorMsg2",
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true
+    });
+  
+}else if(!this.state.descripcion){
+    toast.error('Ingrese una descripción',{
+      toastId:"errorMsg3",
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true
+    });
+    }else if(this.state.type && this.state.asunto && this.state.descripcion){
     axios({
       method: 'post',
       url: '../../../registerCase',
@@ -145,6 +178,8 @@ class ModificarCaso extends Component {
     }).catch(function (error) {
       console.log("There was an error => ", error);
     })
+  }
+  }
   }
   render() {
     return (

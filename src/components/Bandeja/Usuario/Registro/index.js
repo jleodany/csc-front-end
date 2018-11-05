@@ -32,57 +32,127 @@ class RegistrarUsuario extends Component {
 	}
 
 	registerUser() {
-		axios({
-			method: 'post',
-			url: '../../registerUser',
-			headers: { 'content-type': 'application/json' },
-			data: {
-				id: null,
-				userName: this.state.userName,
-				pass: this.state.pass,
-				firstName: this.state.firstName,
-				lastName: this.state.lastName,
-				email: this.state.email,
-				type: this.state.type,
-				token: sessionStorage.getItem('token')
-			}
-		}).then((response) => {
-			console.log(response);
-			if (response.data.status === 200) {
-				toast.success(response.data.message, {
-					position: "top-right",
-					autoClose: 3000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: false,
-					draggable: true,
-					onClose: this.setState({ registered: true })
-				});
-				this.setState({
-					id: null,
-					userName: '',
-					pass: '',
-					firstName: '',
-					lastName: '',
-					email: '',
-					type: 1,
-					registered: false
-				});
-				// this.handleChange(event);
-			} else if (response.data.status === 400) {
-				toast.error(response.data.message, {
+		if(! toast.isActive(this.toastId)){
+			if(!this.state.firstName){
+			  toast.error('Ingrese un nombre',{
+			  toastId:"errorMsg",
+			  position: "top-right",
+			  autoClose: 3000,
+			  hideProgressBar: false,
+			  closeOnClick: true,
+			  pauseOnHover: false,
+			  draggable: true
+			});
+				}else if(!this.state.lastName){
+					toast.error('Ingrese un apellido',{
+					toastId:"errorMsg2",
 					position: "top-right",
 					autoClose: 3000,
 					hideProgressBar: false,
 					closeOnClick: true,
 					pauseOnHover: false,
 					draggable: true
-				});
-			}
-		}).catch(function (error) {
-			console.log("There was an error => ", error);
-		})
-	}
+					});
+				
+				}else if(!this.state.email){
+					toast.error('Ingresa un correo',{
+					toastId:"errorMsg3",
+					position: "top-right",
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: false,
+					draggable: true
+					});
+					}else if(!this.state.userName){
+						toast.error('Ingresa un usuario',{
+						toastId:"errorMsg4",
+						position: "top-right",
+						autoClose: 3000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: false,
+						draggable: true
+						});
+						}else if(!this.state.pass){
+							toast.error('Ingresa una contraseña',{
+							toastId:"errorMsg5",
+							position: "top-right",
+							autoClose: 3000,
+							hideProgressBar: false,
+							closeOnClick: true,
+							pauseOnHover: false,
+							draggable: true
+							});
+							}else if(!this.state.type){
+								toast.error('Ingresa un tipo de usuario',{
+								toastId:"errorMsg5",
+								position: "top-right",
+								autoClose: 3000,
+								hideProgressBar: false,
+								closeOnClick: true,
+								pauseOnHover: false,
+								draggable: true
+								});
+								}
+							else if(this.state.firstName && this.state.lastName && this.state.email && this.state.userName && this.state.pass && this.state.type){
+							axios({
+							method: 'post',
+							url: '../../registerUser',
+							headers: { 'content-type': 'application/json' },
+							data: {
+								id: null,
+								userName: this.state.userName,
+								pass: this.state.pass,
+								firstName: this.state.firstName,
+								lastName: this.state.lastName,
+								email: this.state.email,
+								type: this.state.type,
+								token: sessionStorage.getItem('token')
+							}
+						}).then((response) => {
+							console.log(response);
+							if(! toast.isActive(this.toastId)){
+							if (response.data.status === 200) {
+								toast.success(response.data.message, {
+									toastId:"sucssMsg",
+									position: "top-right",
+									autoClose: 3000,
+									hideProgressBar: false,
+									closeOnClick: true,
+									pauseOnHover: false,
+									draggable: true,
+									onClose: this.setState({ registered: true })
+								});
+								this.setState({
+									id: null,
+									userName: '',
+									pass: '',
+									firstName: '',
+									lastName: '',
+									email: '',
+									type: '',
+									registered: false
+								});
+								// this.handleChange(event);
+							} else if (response.data.status === 400) {
+								toast.error(response.data.message, {
+									toastId:"errorMsg",
+									position: "top-right",
+									autoClose: 3000,
+									hideProgressBar: false,
+									closeOnClick: true,
+									pauseOnHover: false,
+									draggable: true
+								});
+							}
+						}
+						}).catch(function (error) {
+							console.log("There was an error => ", error);
+						})
+					}
+		}
+	}	
 
 	renderRedirect = () => {
 		console.log("renderRedirect")
@@ -104,7 +174,7 @@ class RegistrarUsuario extends Component {
 					{/* Nombre */}
 					<div className="w100 basic-div">
 						<img className="border ic icons" alt="userIcon" src={nameIcon} />
-						<input type="text" name="firstName" placeholder="&nbsp;&nbsp;Nombre" className='inputs' onChange={this.handleChange} value={this.state.firstName} required />
+						<input type="text" minLength="9" name="firstName" placeholder="&nbsp;&nbsp;Nombre" className='inputs' onChange={this.handleChange} value={this.state.firstName} required />
 					</div>
 
 					{/* Apellido */}
@@ -142,6 +212,7 @@ class RegistrarUsuario extends Component {
 						<img className="border ic icons" alt="userIcon" src={passIcon} />
 						<select onChange={this.handleChange} className='inputs' value={this.state.type} name='type' id="select">
 							{/* Selecciona opcion */}
+							<option value="">Tipo de usuario</option>
 							<option value={1}>Administrador</option>
 							<option value={2}>Operador</option>
 							<option value={3}>Cliente</option>

@@ -51,11 +51,13 @@ class ConsultarCasos extends Component {
       }
     }).then((response) => {
       console.log(response);
-      if (response.data.status === 200) {
+      if(! toast.isActive(this.toastId)){
         let table = []
         const casesArray = response.data.data
+      if (response.data.status === 200) {
         if (casesArray.length == 0) {
-          toast.success('El usuario no posee casos asociados', {
+          toast.error('El usuario no posee casos asociados', {
+            toastId:"errorMsg",
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -65,6 +67,7 @@ class ConsultarCasos extends Component {
             onClose: this.setState({ registered: true })
           });
         }
+      }
         casesArray.forEach(cases => {
           console.log("Cases =>", cases)
           let date = new Date(cases.f_apertura)

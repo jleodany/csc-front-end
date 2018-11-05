@@ -117,11 +117,9 @@ class DatosUsuario extends Component {
 
 
           {/* Modificar usuario */}
-          <Link className='basic-div' to="/bandeja/usuario">
             <button className="botoniniciar button">
               Modificar
 						</button>
-          </Link>
           <ToastContainer
             position="top-right"
             autoClose={5000}

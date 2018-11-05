@@ -56,15 +56,18 @@ class Login extends Component {
         sessionStorage.setItem('token', response.data.data.token)
         sessionStorage.setItem('userInfo', JSON.stringify(response.data.data.userInfo))
         this.handleChange(event);
-      }else if(response.data.status=== 400){
-        toast.error(response.data.message,{
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true
-        });
+      }else if(! toast.isActive(this.toastId)){
+        if(response.data.status=== 400){
+          toast.error(response.data.message,{
+            toastId:"errorMsg",
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true
+          });
+        }
       }
     }).catch(function(error){
       console.log("There was an error => ", error);
@@ -118,13 +121,13 @@ class Login extends Component {
             </div>
             <br/>
             {/* Enlace para ir a registro */}
-            <div className='w100 basic-div divFather'>
+            {/* <div className='w100 basic-div divFather'>
               <Link className='w100' to="/register">
                 <button className="botoniniciar button">
                   Registro
                 </button>
               </Link>
-            </div>
+            </div> */}
 
             <br/>
             {/* Olvide contraseña */}
