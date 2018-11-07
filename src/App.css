@@ -227,6 +227,12 @@ p {
   justify-content: center;
   color: white; }
 
+td {
+  background-color: #356f6f; }
+
+th {
+  background-color: #095050; }
+
 .table > table {
   margin-top: 2%; }
 
