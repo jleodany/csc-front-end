@@ -13,23 +13,74 @@ class RegistrarUsuario extends Component {
 
 	constructor() {
 		super();
-		this.state = { id: null, userName: '', pass: '', firstName: '', lastName: '', email: '', type: '', registered: false };
-		this.growl = {};
+		this.state = { id: null, 
+			userName: '',
+			pass: '', 
+			firstName: '', 
+			lastName: '', 
+			email: '', 
+			type: '', 
+			registered: false,
+			};
 
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	handleChange(event) {
+	handleChange(propertyName, event) {
 		const target = event.target;
 		const value = target.value;
 		const name = target.name;
+		console.log(value);
+		console.log(name);
 		// Debe estar, para que se actualice el valor de la variable.
-		this.setState({
-			[name]: value
-		});
+		let data = this.state
+		// const regex = /^[a-zA-Z ]+$/;
+		switch(propertyName){
+			case 'firstName':
+			if(value=='' ||  /^[a-zA-Z ]+$/.test(value)){
+				data[propertyName] = value;
+				this.setState({name: data});
+			}
+			break;
+			case 'lastName':
+			if(value=='' ||  /^[a-zA-Z ]+$/.test(value)){
+				data[propertyName] = value;
+				this.setState({name: data});
+			}
+			break;
 
-		console.log(this.state);
-	}
+			case 'email':
+			this.setState({[name]:value});
+			break;
+
+			case 'userName':
+			this.setState({[name]:value});
+			break;
+
+			case 'pass':
+			this.setState({[name]:value});
+			break;
+
+			case 'type':
+			this.setState({[name]:value});
+			break;
+		}
+			
+		}
+
+
+		// if(value == '' || /^[a-zA-Z ]+$/.test(value)){
+		// 	if(data[propertyName] == data['firstName'] || data[propertyName] == data['lastName']){
+		// 	data[propertyName] = value;
+		// 	this.setState({name: data});
+		// 	// this.setState({
+		// 	// 	[name]: value
+		// 	// });
+		// 	}
+		// 	}
+		// }
+	
+
 
 	registerUser() {
 		if(! toast.isActive(this.toastId)){
@@ -54,8 +105,8 @@ class RegistrarUsuario extends Component {
 					draggable: true
 					});
 				
-				}else if(!this.state.email){
-					toast.error('Ingresa un correo',{
+				}else if(!this.state.email || !/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(this.state.email)){
+					toast.error('Ingresa un correo válido',{
 					toastId:"errorMsg3",
 					position: "top-right",
 					autoClose: 3000,
@@ -74,8 +125,8 @@ class RegistrarUsuario extends Component {
 						pauseOnHover: false,
 						draggable: true
 						});
-						}else if(!this.state.pass){
-							toast.error('Ingresa una contraseña',{
+						}else if(!this.state.pass || (this.state.pass).length < 6){
+							toast.error('Contraseña inválida, minimo 6 digitos',{
 							toastId:"errorMsg5",
 							position: "top-right",
 							autoClose: 3000,
@@ -174,19 +225,19 @@ class RegistrarUsuario extends Component {
 					{/* Nombre */}
 					<div className="w100 basic-div">
 						<img className="border ic icons" alt="userIcon" src={nameIcon} />
-						<input type="text" minLength="9" name="firstName" placeholder="&nbsp;&nbsp;Nombre" className='inputs' onChange={this.handleChange} value={this.state.firstName} required />
+						<input type="text" name="firstName" placeholder="&nbsp;&nbsp;Nombre" className='inputs' onChange={this.handleChange.bind(this, 'firstName')} value={this.state.firstName} required />
 					</div>
 
 					{/* Apellido */}
 					<div className="w100 basic-div">
 						<img className="border ic icons" alt="userIcon" src={nameIcon} />
-						<input type="text" name="lastName" placeholder="&nbsp;&nbsp;Apellido" className='inputs' onChange={this.handleChange} value={this.state.lastName} required />
+						<input type="text" name="lastName" placeholder="&nbsp;&nbsp;Apellido" className='inputs' onChange={this.handleChange.bind(this, 'lastName')} value={this.state.lastName} required />
 					</div>
 
 					{/* Correo */}
 					<div className="w100 basic-div">
 						<img className="border ic icons" alt="userIcon" src={emailIcon} />
-						<input type="email" name="email" placeholder="&nbsp;&nbsp;Correo" className='inputs' onChange={this.handleChange} value={this.state.email} required />
+						<input type="email" name="email" placeholder="&nbsp;&nbsp;Correo" className='inputs' onChange={this.handleChange.bind(this, 'email')} value={this.state.email} />
 					</div>
 
 					{/* Telefono */}
@@ -198,19 +249,19 @@ class RegistrarUsuario extends Component {
 					{/* Usuario */}
 					<div className="w100 basic-div">
 						<img className="border ic icons" alt="userIcon" src={userIcon} />
-						<input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' onChange={this.handleChange} maxLength="30" value={this.state.userName} required />
+						<input type="text" name="userName" placeholder="&nbsp;&nbsp;Usuario" className='inputs' onChange={this.handleChange.bind(this, 'userName')} maxLength="30" value={this.state.userName} required />
 					</div>
 
 					{/* Contraseña */}
 					<div className="w100 basic-div">
 						<img className="border ic icons" alt="passIcon" src={passIcon} />
-						<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange} value={this.state.pass} maxLength="12" minLength="5" required />
+						<input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña" className='inputs' onChange={this.handleChange.bind(this, 'pass')} value={this.state.pass} maxLength="12" minLength="6" required />
 					</div>
 
 					{/* Tipo de Usuario */}
 					<div className="w100 basic-div">
 						<img className="border ic icons" alt="userIcon" src={passIcon} />
-						<select onChange={this.handleChange} className='inputs' value={this.state.type} name='type' id="select">
+						<select onChange={this.handleChange.bind(this, 'type')} className='inputs' value={this.state.type} name='type' id="select">
 							{/* Selecciona opcion */}
 							<option value="">Tipo de usuario</option>
 							<option value={1}>Administrador</option>
