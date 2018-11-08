@@ -15,11 +15,13 @@ class ModificarCaso extends Component {
       operador: this.props.caseToEdit.operador,
       user: this.props.caseToEdit.user,
       status: this.props.caseToEdit.status,
-      file: this.props.caseToEdit.file,
+      fileBool: this.props.caseToEdit.file,
+      file: '',
+      disabled: this.props.caseToEdit.user === JSON.parse(sessionStorage.getItem('userInfo')).id ? false : true,
       image: '',
       operators: <option></option>
     }
-    if(this.state.file){
+    if (this.state.fileBool) {
       axios({
         method: 'post',
         url: '../../../download',
@@ -28,14 +30,77 @@ class ModificarCaso extends Component {
         }
       }).then((response) => {
         console.log(`data:image/jpeg;base64, ${response.data.data}`)
-        this.setState({file: `data:image/jpeg;base64, ${response.data.data}`})
+        this.setState({ image: `data:image/jpeg;base64, ${response.data.data}` })
       })
     }
     console.log(this.state)
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeFile = this.handleChangeFile.bind(this);
     if (JSON.parse(sessionStorage.getItem('userInfo')).type === 1) {
       this.getOperators()
     }
+  }
+
+  uploadFile = (name) => {
+    if (this.state.file) {
+      console.log('name', name)
+      let formData = new FormData()
+      formData.append('file', this.state.file, `${name}.jpg`)
+      axios.post('../../uploadFile', formData).then((response) => {
+        console.log(response);
+        if (!toast.isActive(this.toastId)) {
+          if (response.data.status === 200) {
+            toast.success(response.data.message, {
+              toastId: "succsMsg",
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              onClose: this.setState({ registered: true })
+            });
+          } else if (response.data.status === 400) {
+            toast.error(response.data.message, {
+              toastId: "errorMsg",
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true
+            });
+          }
+        }
+      }).catch(function (error) {
+        console.log("There was an error => ", error);
+      })
+    }
+  }
+
+  async handleChangeFile(event) {
+    console.log(event.target.files[0])
+    if (event.target.files[0]) {
+      if (event.target.files[0].type === "image/jpeg" || event.target.files[0].type === "image/png") {
+        let reader = new FileReader()
+        reader.onload = async (e) => {
+          await this.setState({ image: e.target.result })
+        }
+        reader.readAsDataURL(event.target.files[0])
+        await this.setState({ file: event.target.files[0], fileBool: true })
+      } else {
+        toast.error('Formato no permitido', {
+          toastId: "errorMsg",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+      }
+    }
+    console.log(this.state)
   }
 
   handleChange(event) {
@@ -142,7 +207,7 @@ class ModificarCaso extends Component {
           draggable: true,
           onClose: this.setState({ registered: true })
         });
-        this.setState({status: status})
+        this.setState({ status: status })
       } else if (response.data.status === 400) {
         toast.error(response.data.message, {
           position: "top-right",
@@ -201,20 +266,25 @@ class ModificarCaso extends Component {
             descripcion: this.state.descripcion,
             type: this.state.type,
             idCaso: this.state.idCaso,
+            file: this.state.file ? 1 : 0,
             token: sessionStorage.getItem('token')
           }
         }).then((response) => {
           console.log(response);
           if (response.data.status === 200) {
-            toast.success(response.data.message, {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              onClose: this.setState({ registered: true })
-            });
+            if (this.state.file) {
+              this.uploadFile(this.state.idCaso)
+            } else {
+              toast.success(response.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                onClose: this.setState({ registered: true })
+              });
+            }
           } else if (response.data.status === 400) {
             toast.error(response.data.message, {
               position: "top-right",
@@ -238,7 +308,7 @@ class ModificarCaso extends Component {
         <div className="formDiv">
           <div className="w100 w1002">
             <h2>APERTURAR CASO</h2>
-            <select className='inputs' name="type" value={this.state.type} onChange={this.handleChange}>
+            <select className='inputs' name="type" value={this.state.type} onChange={this.handleChange} disabled={this.state.disabled}>
               {/* Selecciona opcion */}
               <option value="">Elija una opción
                     </option>
@@ -250,9 +320,9 @@ class ModificarCaso extends Component {
                     </option>
             </select>
             {/* Asunto */}
-            <input type="text" name="asunto" placeholder="&nbsp; &nbsp;Asunto" value={this.state.asunto} className='inputs' onChange={this.handleChange} />
+            <input type="text" name="asunto" placeholder="&nbsp; &nbsp;Asunto" value={this.state.asunto} className='inputs' onChange={this.handleChange} disabled={this.state.disabled} />
             {/* Descripción */}
-            <textarea type="text" name="descripcion" placeholder="&nbsp;Descripción del caso" value={this.state.descripcion} className='textArea' onChange={this.handleChange} >
+            <textarea type="text" name="descripcion" placeholder="&nbsp;Descripción del caso" value={this.state.descripcion} className='textArea' onChange={this.handleChange} disabled={this.state.disabled}>
             </textarea>
             {
               JSON.parse(sessionStorage.getItem('userInfo')).type === 1 ?
@@ -266,17 +336,17 @@ class ModificarCaso extends Component {
                 : null
             }
             {/* Adjuntar */}
-            <input type="file" name="adjuntar" className='inputs' />
-              {
-                this.state.file ? <div className='divCaseImg'><img src={this.state.file} className='caseImg' alt='img'></img></div>
-                  : null
-              }
+            <input type="file" name="adjuntar" onChange={this.handleChangeFile} className='inputs' />
+            {
+              this.state.fileBool ? <div className='divCaseImg'><img src={this.state.image} className='caseImg' alt='img'></img></div>
+                : null
+            }
             {/* Botón registro */}
             {
               this.state.user === JSON.parse(sessionStorage.getItem('userInfo')).id ? <div className='basic-div'>
                 <input type="submit" className="botoniniciar button" value="Modificar" onClick={this.modificateCase} />
               </div>
-                : this.state.operador === JSON.parse(sessionStorage.getItem('userInfo')).id ?
+                : this.state.operador === JSON.parse(sessionStorage.getItem('userInfo')).id && this.state.status === 'PENDIENTE' ?
                   <div className='basic-div'>
                     <div className='basic-div'>
                       <input type="submit" className="botoniniciar button" value="Completar" onClick={() => this.changeStatus('FINALIZADO')} />
@@ -284,7 +354,8 @@ class ModificarCaso extends Component {
                     <div className='basic-div'>
                       <input type="submit" className="botoniniciar button" value="Rechazar" onClick={() => this.changeStatus('RECHAZADO')} />
                     </div>
-                  </div> : null
+                  </div> : this.state.status !== 'PENDIENTE' && (this.state.user === JSON.parse(sessionStorage.getItem('userInfo')).id || JSON.parse(sessionStorage.getItem('userInfo')).type === 1)
+                    ? <input type="submit" className="botoniniciar button" value="Reabrir" onClick={() => this.changeStatus('PENDIENTE')} /> : null
             }
           </div>
           <ToastContainer

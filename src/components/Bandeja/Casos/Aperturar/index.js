@@ -19,12 +19,26 @@ class AperturarCaso extends Component {
 
   async handleChangeFile(event) {
     console.log(event.target.files[0])
-    let reader = new FileReader()
-    reader.onload = async (e) => {
-      await this.setState({ image: e.target.result })
+    if(event.target.files[0]){
+      if(event.target.files[0].type === "image/jpeg" || event.target.files[0].type === "image/png"){
+        let reader = new FileReader()
+        reader.onload = async (e) => {
+          await this.setState({ image: e.target.result })
+        }
+        reader.readAsDataURL(event.target.files[0])
+        await this.setState({ file: event.target.files[0] })
+      } else {
+        toast.error('Formato no permitido', {
+          toastId: "errorMsg",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true
+        });
+      }
     }
-    reader.readAsDataURL(event.target.files[0])
-    await this.setState({ file: event.target.files[0] })
     console.log(this.state)
   }
 
