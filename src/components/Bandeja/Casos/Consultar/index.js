@@ -39,7 +39,7 @@ class ConsultarCasos extends Component {
   }
 
   handleSearch() {
-    if(this.state.attrib != '0' && (this.state.value == null || this.state.value == '')){
+    if(this.state.attrib !== '0' && (this.state.value === null || this.state.value === '')){
       toast.error('Debe ingresar el valor para buscar', {
         toastId:"errorMsg",
         position: "top-right",
@@ -56,8 +56,8 @@ class ConsultarCasos extends Component {
         url: '../../getCases',
         headers: { 'content-type': 'application/json' },
         data: {
-          params: this.state.attrib == "0" ? false : true,
-          value: this.state.attrib == "f_apertura" ? new Date(this.state.value).setHours(24, 0, 0, 0) : this.state.value,
+          params: this.state.attrib === "0" ? false : true,
+          value: this.state.attrib === "f_apertura" ? new Date(this.state.value).setHours(24, 0, 0, 0) : this.state.value,
           attrib: this.state.attrib,
           token: sessionStorage.getItem('token')
         }
@@ -67,7 +67,7 @@ class ConsultarCasos extends Component {
           let table = []
           const casesArray = response.data.data
         if (response.data.status === 200) {
-          if (casesArray.length == 0) {
+          if (casesArray.length === 0) {
             toast.error('El usuario no posee casos asociados', {
               toastId:"errorMsg",
               position: "top-right",
@@ -119,7 +119,7 @@ class ConsultarCasos extends Component {
     return (
       <div className="datosPersonales">
       {
-        this.state.caseToEdit ? <div className='divbtnXIcon'><button onClick={() => this.closeEdit()} className='btnXIcon'><img src={xIcon} className='imgXIcon'></img> </button></div>
+        this.state.caseToEdit ? <div className='divbtnXIcon'><button onClick={() => this.closeEdit()} className='btnXIcon'><img src={xIcon} alt='img' className='imgXIcon'></img> </button></div>
         : null
       }
       {
@@ -140,9 +140,9 @@ class ConsultarCasos extends Component {
                       </option>
               </select>
               {
-                this.state.attrib == "idCaso"
+                this.state.attrib === "idCaso"
                   ? <input type="text" name="numCaso" id="numCaso" onChange={this.handleChangeValue} value={this.state.value} className="inputs" placeholder="&nbsp; &nbsp;Número de caso" />
-                  : this.state.attrib == "f_apertura"
+                  : this.state.attrib === "f_apertura"
                     ? <input type="date" name="numCaso" id="numCaso" onChange={this.handleChangeValue} value={this.state.value} className="inputs" placeholder="&nbsp; &nbsp;Número de caso" />
                     : <div></div>
               }

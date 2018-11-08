@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Principal from './Principal';
 import Casos from './Casos';
 import Usuario from './Usuario'
-import casosApertura from './Casos/Aperturar'
 import { Redirect } from 'react-router-dom';
 import Logo from '../assets/imagenes/loginImg.png';
 import { logOut } from "./methods";
@@ -15,7 +14,7 @@ class Bandeja extends Component {
   }
 
   redirectLogIn = () => {
-    if(sessionStorage.getItem('token') == null){
+    if(sessionStorage.getItem('token') === null){
       return <Redirect to="/login"/>
     }
   }
@@ -46,11 +45,11 @@ class Bandeja extends Component {
             <li><Link onClick={() => this.changeShowingComponent('usuario', 'datos')} to="/bandeja/usuario/datos">Usuario</Link>
                 <ul>
                 {
-                  JSON.parse(sessionStorage.getItem('userInfo')).type == 1 
+                  JSON.parse(sessionStorage.getItem('userInfo')).type === 1 
                   ? <li><Link onClick={() => this.changeShowingComponent('usuario', 'consultar')} to="/bandeja/usuario/consultar">Consultar</Link></li>
                   : null
                 }{
-                  JSON.parse(sessionStorage.getItem('userInfo')).type == 1 
+                  JSON.parse(sessionStorage.getItem('userInfo')).type === 1 
                   ? <li><Link onClick={() => this.changeShowingComponent('usuario', 'registrar')} to="/bandeja/usuario/registro">Registrar</Link></li>
                   : null
                 }
@@ -61,8 +60,8 @@ class Bandeja extends Component {
         </nav>
           <div className="App main-content">
           {
-            this.state.toShow == 'principal' ? <Principal />
-            : this.state.toShow == 'casos' ? <Casos toShow={this.state.childComponent}/>
+            this.state.toShow === 'principal' ? <Principal />
+            : this.state.toShow === 'casos' ? <Casos toShow={this.state.childComponent}/>
             : <Usuario toShow={this.state.childComponent}/>
           }
 

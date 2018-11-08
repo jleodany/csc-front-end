@@ -17,9 +17,15 @@ class ModificarCaso extends Component {
       status: this.props.caseToEdit.status,
       operators: <option></option>
     }
+    // axios({
+    //   method: 'post',
+    //   url: '../../download'
+    // }).then((response) => {
+    //   console.log('response download', response)
+    // })
     console.log(this.state)
     this.handleChange = this.handleChange.bind(this);
-    if (JSON.parse(sessionStorage.getItem('userInfo')).type == 1) {
+    if (JSON.parse(sessionStorage.getItem('userInfo')).type === 1) {
       this.getOperators()
     }
   }
@@ -49,7 +55,7 @@ class ModificarCaso extends Component {
         const usersInfo = response.data.data
         let operators = []
         usersInfo.forEach(user => {
-          if (user.type == 2) {
+          if (user.type === 2) {
             operators.push(<option key={user.id} value={user.id}>{`${user.userName}`}</option>)
           }
         });
@@ -241,7 +247,7 @@ class ModificarCaso extends Component {
             <textarea type="text" name="descripcion" placeholder="&nbsp;Descripción del caso" value={this.state.descripcion} className='textArea' onChange={this.handleChange} >
             </textarea>
             {
-              JSON.parse(sessionStorage.getItem('userInfo')).type == 1 ?
+              JSON.parse(sessionStorage.getItem('userInfo')).type === 1 ?
                 <div className='basic-div'>
                   <select className='inputs' name="operador" value={this.state.operador} onChange={this.handleChange}>
                     <option value={null}>No Asignado</option>
@@ -255,10 +261,10 @@ class ModificarCaso extends Component {
             <input type="file" name="adjuntar" className='inputs' />
             {/* Botón registro */}
             {
-              this.state.user == JSON.parse(sessionStorage.getItem('userInfo')).id ? <div className='basic-div'>
+              this.state.user === JSON.parse(sessionStorage.getItem('userInfo')).id ? <div className='basic-div'>
                 <input type="submit" className="botoniniciar button" value="Modificar" onClick={this.modificateCase} />
               </div>
-                : this.state.operador == JSON.parse(sessionStorage.getItem('userInfo')).id ?
+                : this.state.operador === JSON.parse(sessionStorage.getItem('userInfo')).id ?
                   <div className='basic-div'>
                     <div className='basic-div'>
                       <input type="submit" className="botoniniciar button" value="Completar" onClick={() => this.changeStatus('FINALIZADO')} />

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import ModificarUsuario from './Modificar'
 import xIcon from '../../../assets/imagenes/x-mark.png'
@@ -88,7 +87,7 @@ class ConsultarUsuario extends Component {
           children.push(<td key={`${user.id}b`}>{`${user.firstName} ${user.lastName}`}</td>)
           children.push(<td key={`${user.id}c`}>{`${user.email}`}</td>)
           children.push(<td key={`${user.id}d`}><button className='botoniniciar button' onClick={() => this.toEdit(user)}>Editar</button><button className='botoniniciar button botoneliminar' onClick={() => this.toDelete(user)}>Eliminar</button></td>)
-          if(user.id != JSON.parse(sessionStorage.getItem('userInfo')).id){
+          if(user.id !== JSON.parse(sessionStorage.getItem('userInfo')).id){
             table.push(<tr key={user.id}>{children}</tr>)
           }
         });
@@ -119,7 +118,7 @@ class ConsultarUsuario extends Component {
     return (
       <div className="main">
       {
-        this.state.userToEdit ? <div className='divbtnXIcon'><button onClick={() => this.closeEdit()} className='btnXIcon'><img src={xIcon} className='imgXIcon'></img> </button></div>
+        this.state.userToEdit ? <div className='divbtnXIcon'><button onClick={() => this.closeEdit()} className='btnXIcon'><img src={xIcon} alt='img' className='imgXIcon'></img> </button></div>
         : null
       }
       {

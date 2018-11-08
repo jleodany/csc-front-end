@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import logo from '../../../assets/imagenes/loginImg.png';
 import userIcon from '../../../assets/imagenes/user.png';
 import passIcon from '../../../assets/imagenes/cont.png';
@@ -37,13 +36,13 @@ class RegistrarUsuario extends Component {
 		// const regex = /^[a-zA-Z ]+$/;
 		switch(propertyName){
 			case 'firstName':
-			if(value=='' ||  /^[a-zA-Z ]+$/.test(value)){
+			if(value==='' ||  /^[a-zA-Z ]+$/.test(value)){
 				data[propertyName] = value;
 				this.setState({name: data});
 			}
 			break;
 			case 'lastName':
-			if(value=='' ||  /^[a-zA-Z ]+$/.test(value)){
+			if(value==='' ||  /^[a-zA-Z ]+$/.test(value)){
 				data[propertyName] = value;
 				this.setState({name: data});
 			}
@@ -64,6 +63,8 @@ class RegistrarUsuario extends Component {
 			case 'type':
 			this.setState({[name]:value});
 			break;
+			default:
+			break
 		}
 			
 		}

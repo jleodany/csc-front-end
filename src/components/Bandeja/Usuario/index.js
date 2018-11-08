@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 import ConsultarUsuario from './Consulta'
 import RegistrarUsuario from './Registro'
 import DatosUsuario from './Datos'
-
-let axios = require("axios");
 
 class Usuario extends Component {
   constructor(props) {
@@ -18,7 +14,7 @@ class Usuario extends Component {
   }
 
   componentDidUpdate(prevProps){
-    if(prevProps.toShow != this.props.toShow){
+    if(prevProps.toShow !== this.props.toShow){
       this.setState({toShow: this.props.toShow})
     }
   }
@@ -26,8 +22,8 @@ class Usuario extends Component {
     return (
       <div className="table-user">
         {
-          this.state.toShow == 'registrar' ? <RegistrarUsuario />
-            : this.state.toShow == 'consultar' ? <ConsultarUsuario />
+          this.state.toShow === 'registrar' ? <RegistrarUsuario />
+            : this.state.toShow === 'consultar' ? <ConsultarUsuario />
               : <DatosUsuario />
         }
       </div>

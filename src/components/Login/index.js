@@ -105,8 +105,8 @@ class Login extends Component {
                 <div className="w100 basic-div">
                   <img className="border ic icons" alt="passIcon" src={passIcon} />
                   <input type="password" name="pass" placeholder="&nbsp;&nbsp;Contraseña"  onKeyPress={(ev)=>{
-                     if (ev.key === 'Enter') {
-                      {this.login()}
+                    if (ev.key === 'Enter') {
+                      this.login()
                     }
                   }} className='inputs' value={this.state.pass} onChange={this.handleChange} required maxLength="12"/>
                 </div>

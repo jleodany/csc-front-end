@@ -82,7 +82,7 @@ fieldset {
 }
 
 .formDiv {
-    height: 30%;
+    height: auto;
     // display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -92,7 +92,7 @@ fieldset {
 
 @media (max-width: 1024px) {
     .formDiv {
-        height: 32%;
+        height: auto;
         // display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -103,7 +103,7 @@ fieldset {
 
 @media (max-width: 768px) {
     .formDiv {
-        height: 32%;
+        height: auto;
         // display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -114,7 +114,7 @@ fieldset {
 
 @media (max-width: 668px) {
     .formDiv {
-        height: 32%;
+        height: auto;
         // display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -127,6 +127,14 @@ fieldset {
 
 .w100 {
     width: 100%;
+}
+
+.w1002{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .basic-div {
@@ -252,11 +260,27 @@ p {
     height: 100%;
 }
 
+::-webkit-scrollbar{
+    background-color: #adcdc9;
+    width: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #0b8585;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background-color: #1c6464;
+}
+
 .tablas{
     height: 70%;
     width: 100%;
     display: flex;
     justify-content: center;
+    overflow-y: auto;
 }
 
 .registro:hover {

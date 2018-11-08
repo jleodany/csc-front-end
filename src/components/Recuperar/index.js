@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {Growl} from 'primereact/growl';
 import logo from '../assets/imagenes/loginImg.png';
 import userIcon from '../assets/imagenes/user.png';

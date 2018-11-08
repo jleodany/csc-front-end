@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import logo from '../../../../assets/imagenes/loginImg.png';
 import userIcon from '../../../../assets/imagenes/user.png';
 import passIcon from '../../../../assets/imagenes/cont.png';

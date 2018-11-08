@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import ConsultarCasos from './Consultar'
 import AperturarCaso from './Aperturar'
 
-let axios = require("axios");
-
 class Casos extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +13,7 @@ class Casos extends Component {
   }
 
   componentDidUpdate(prevProps){
-    if(prevProps.toShow != this.props.toShow){
+    if(prevProps.toShow !== this.props.toShow){
       this.setState({toShow: this.props.toShow})
     }
   }
@@ -25,7 +23,7 @@ class Casos extends Component {
 
       <div className="table-user">
         {
-          this.state.toShow == 'aperturar' ? <AperturarCaso />
+          this.state.toShow === 'aperturar' ? <AperturarCaso />
             : <ConsultarCasos />
         }
       </div>
