@@ -120,7 +120,8 @@ class AperturarCaso extends Component {
             asunto: this.state.asunto,
             descripcion: this.state.descripcion,
             type: this.state.type,
-            token: sessionStorage.getItem('token')
+            token: sessionStorage.getItem('token'),
+            file: this.state.file ? 1 : 0
           }
         }).then((response) => {
           console.log(response);

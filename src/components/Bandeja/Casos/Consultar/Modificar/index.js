@@ -15,14 +15,22 @@ class ModificarCaso extends Component {
       operador: this.props.caseToEdit.operador,
       user: this.props.caseToEdit.user,
       status: this.props.caseToEdit.status,
+      file: this.props.caseToEdit.file,
+      image: '',
       operators: <option></option>
     }
-    // axios({
-    //   method: 'post',
-    //   url: '../../download'
-    // }).then((response) => {
-    //   console.log('response download', response)
-    // })
+    if(this.state.file){
+      axios({
+        method: 'post',
+        url: '../../../download',
+        data: {
+          idCaso: this.state.idCaso
+        }
+      }).then((response) => {
+        console.log(`data:image/jpeg;base64, ${response.data.data}`)
+        this.setState({file: `data:image/jpeg;base64, ${response.data.data}`})
+      })
+    }
     console.log(this.state)
     this.handleChange = this.handleChange.bind(this);
     if (JSON.parse(sessionStorage.getItem('userInfo')).type === 1) {
@@ -228,7 +236,7 @@ class ModificarCaso extends Component {
     return (
       <div className='formCasos'>
         <div className="formDiv">
-          <div className="w100">
+          <div className="w100 w1002">
             <h2>APERTURAR CASO</h2>
             <select className='inputs' name="type" value={this.state.type} onChange={this.handleChange}>
               {/* Selecciona opcion */}
@@ -259,6 +267,10 @@ class ModificarCaso extends Component {
             }
             {/* Adjuntar */}
             <input type="file" name="adjuntar" className='inputs' />
+              {
+                this.state.file ? <div className='divCaseImg'><img src={this.state.file} className='caseImg' alt='img'></img></div>
+                  : null
+              }
             {/* Botón registro */}
             {
               this.state.user === JSON.parse(sessionStorage.getItem('userInfo')).id ? <div className='basic-div'>
