@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { Redirect } from 'react-router-dom';
 let axios = require("axios");
 
 class ModificarCaso extends Component {
@@ -19,7 +20,8 @@ class ModificarCaso extends Component {
       file: '',
       disabled: this.props.caseToEdit.user === JSON.parse(sessionStorage.getItem('userInfo')).id ? false : true,
       image: '',
-      operators: <option></option>
+      operators: <option></option>,
+      invalidToken: false
     }
     if (this.state.fileBool) {
       axios({
@@ -29,8 +31,36 @@ class ModificarCaso extends Component {
           idCaso: this.state.idCaso
         }
       }).then((response) => {
-        console.log(`data:image/jpeg;base64, ${response.data.data}`)
-        this.setState({ image: `data:image/jpeg;base64, ${response.data.data}` })
+        if(response.data.status === 200){
+          this.setState({ image: `data:image/jpeg;base64, ${response.data.data}` })
+        } else if (response.data.status === 400){
+          toast.error('Hubo un Error Descargando el Archivo asociado a este Caso', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+          });
+        } else if (response.data.status === 405) {
+          toast.error('Su Sesión ha Expirado', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+          });
+          setTimeout(
+            function () {
+              this.setState({ invalidToken: true });
+              sessionStorage.removeItem('token')
+              sessionStorage.removeItem('userInfo')
+            }
+              .bind(this),
+            3000
+          );
+        }
       })
     }
     console.log(this.state)
@@ -38,6 +68,12 @@ class ModificarCaso extends Component {
     this.handleChangeFile = this.handleChangeFile.bind(this);
     if (JSON.parse(sessionStorage.getItem('userInfo')).type === 1) {
       this.getOperators()
+    }
+  }
+
+  renderRedirect = () => {
+    if (this.state.invalidToken) {
+      return <Redirect to="/" />
     }
   }
 
@@ -70,6 +106,24 @@ class ModificarCaso extends Component {
               pauseOnHover: false,
               draggable: true
             });
+          } else if (response.data.status === 405) {
+            toast.error('Su Sesión ha Expirado', {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+            });
+            setTimeout(
+              function () {
+                this.setState({ invalidToken: true });
+                sessionStorage.removeItem('token')
+                sessionStorage.removeItem('userInfo')
+              }
+                .bind(this),
+              3000
+            );
           }
         }
       }).catch(function (error) {
@@ -142,6 +196,24 @@ class ModificarCaso extends Component {
           pauseOnHover: false,
           draggable: true
         });
+      } else if (response.data.status === 405) {
+        toast.error('Su Sesión ha Expirado', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+        });
+        setTimeout(
+          function () {
+            this.setState({ invalidToken: true });
+            sessionStorage.removeItem('token')
+            sessionStorage.removeItem('userInfo')
+          }
+            .bind(this),
+          3000
+        );
       }
     }).catch(function (error) {
       console.log("There was an error => ", error);
@@ -149,40 +221,69 @@ class ModificarCaso extends Component {
   }
 
   asignAgent = () => {
-    axios({
-      method: 'post',
-      url: '../../../asignOperator',
-      headers: { 'content-type': 'application/json' },
-      data: {
-        idCaso: this.state.idCaso,
-        idOperador: this.state.operador,
-        token: sessionStorage.getItem('token')
-      }
-    }).then((response) => {
-      console.log(response);
-      if (response.data.status === 200) {
-        toast.success(response.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          onClose: this.setState({ registered: true })
-        });
-      } else if (response.data.status === 400) {
-        toast.error(response.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true
-        });
-      }
-    }).catch(function (error) {
-      console.log("There was an error => ", error);
-    })
+    if (this.state.operador == null) {
+      toast.error('Debe Seleccionar un Operador para asignarlo', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true
+      });
+    } else {
+      axios({
+        method: 'post',
+        url: '../../../asignOperator',
+        headers: { 'content-type': 'application/json' },
+        data: {
+          idCaso: this.state.idCaso,
+          idOperador: this.state.operador,
+          token: sessionStorage.getItem('token')
+        }
+      }).then((response) => {
+        console.log(response);
+        if (response.data.status === 200) {
+          toast.success(response.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            onClose: this.setState({ registered: true })
+          });
+        } else if (response.data.status === 400) {
+          toast.error(response.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true
+          });
+        } else if (response.data.status === 405) {
+          toast.error('Su Sesión ha Expirado', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+          });
+          setTimeout(
+            function () {
+              this.setState({ invalidToken: true });
+              sessionStorage.removeItem('token')
+              sessionStorage.removeItem('userInfo')
+            }
+              .bind(this),
+            3000
+          );
+        }
+      }).catch(function (error) {
+        console.log("There was an error => ", error);
+      })
+    }
   }
 
   changeStatus(status) {
@@ -217,6 +318,24 @@ class ModificarCaso extends Component {
           pauseOnHover: false,
           draggable: true
         });
+      } else if (response.data.status === 405) {
+        toast.error('Su Sesión ha Expirado', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+        });
+        setTimeout(
+          function () {
+            this.setState({ invalidToken: true });
+            sessionStorage.removeItem('token')
+            sessionStorage.removeItem('userInfo')
+          }
+            .bind(this),
+          3000
+        );
       }
     }).catch(function (error) {
       console.log("There was an error => ", error);
@@ -294,6 +413,24 @@ class ModificarCaso extends Component {
               pauseOnHover: false,
               draggable: true
             });
+          } else if (response.data.status === 405) {
+            toast.error('Su Sesión ha Expirado', {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+            });
+            setTimeout(
+              function () {
+                this.setState({ invalidToken: true });
+                sessionStorage.removeItem('token')
+                sessionStorage.removeItem('userInfo')
+              }
+                .bind(this),
+              3000
+            );
           }
         }).catch(function (error) {
           console.log("There was an error => ", error);
@@ -305,9 +442,10 @@ class ModificarCaso extends Component {
   render() {
     return (
       <div className='formCasos'>
+        {this.renderRedirect()}
         <div className="formDiv">
           <div className="w100 w1002">
-            <h2>APERTURAR CASO</h2>
+            <h2>MODIFICAR CASO</h2>
             <select className='inputs' name="type" value={this.state.type} onChange={this.handleChange} disabled={this.state.disabled}>
               {/* Selecciona opcion */}
               <option value="">Elija una opción

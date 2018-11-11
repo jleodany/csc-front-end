@@ -12,5 +12,6 @@ export function logOut() {
   }).then((response) => {
     console.log("response: ", response)
     sessionStorage.removeItem('token')
+    sessionStorage.removeItem('userInfo')
   })
 }

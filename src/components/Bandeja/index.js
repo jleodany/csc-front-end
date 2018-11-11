@@ -25,6 +25,7 @@ class Bandeja extends Component {
   }
 
   render() {
+    const helpLink = `/ayuda/index.html`
     return (
       <div className="body">
         {this.redirectLogIn()}
@@ -45,16 +46,19 @@ class Bandeja extends Component {
             <li><Link onClick={() => this.changeShowingComponent('usuario', 'datos')} to="/bandeja/usuario/datos">Usuario</Link>
                 <ul>
                 {
-                  JSON.parse(sessionStorage.getItem('userInfo')).type === 1 
-                  ? <li><Link onClick={() => this.changeShowingComponent('usuario', 'consultar')} to="/bandeja/usuario/consultar">Consultar</Link></li>
+                  sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')).type === 1 
+                    ? <li><Link onClick={() => this.changeShowingComponent('usuario', 'consultar')} to="/bandeja/usuario/consultar">Consultar</Link></li>
+                    : null
                   : null
                 }{
-                  JSON.parse(sessionStorage.getItem('userInfo')).type === 1 
-                  ? <li><Link onClick={() => this.changeShowingComponent('usuario', 'registrar')} to="/bandeja/usuario/registro">Registrar</Link></li>
+                  sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')).type === 1 
+                    ? <li><Link onClick={() => this.changeShowingComponent('usuario', 'registrar')} to="/bandeja/usuario/registro">Registrar</Link></li>
+                    : null
                   : null
                 }
                 </ul>
             </li>
+            <li><a href={helpLink} target='_blank'>Ayuda</a></li>
             <li><Link to="/" onClick={logOut}>Cerrar Sesión</Link></li>
           </ul>
         </nav>

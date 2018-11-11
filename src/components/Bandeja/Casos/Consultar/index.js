@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-// import { DataTable } from 'primereact/datatable';
-// import { Column } from 'primereact/column';
 import { ToastContainer, toast } from 'react-toastify';
+import { Redirect } from 'react-router-dom';
 import ModificarCaso from './Modificar'
 import xIcon from '../../../assets/imagenes/x-mark.png'
 let axios = require("axios");
@@ -13,11 +12,18 @@ class ConsultarCasos extends Component {
     this.state = {
       attrib: '0',
       value: '',
-      caseToEdit: null
+      caseToEdit: null,
+      invalidToken: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeValue = this.handleChangeValue.bind(this);
+  }
+
+  renderRedirect = () => {
+    if (this.state.invalidToken) {
+      return <Redirect to="/" />
+    }
   }
 
   handleChange(e) {
@@ -79,29 +85,29 @@ class ConsultarCasos extends Component {
                 onClose: this.setState({ registered: true })
               });
             }
+            casesArray.forEach(cases => {
+              console.log("Cases =>", cases)
+              let date = new Date(cases.f_apertura)
+              cases.f_apertura = `${date.getDate()}-${(date.getMonth() + 1)}-${date.getFullYear()}`
+              date = new Date(cases.f_mod)
+              cases.f_mod = `${date.getDate()}-${(date.getMonth() + 1)}-${date.getFullYear()}`
+              let childrenTable = []
+              childrenTable.push(<td key={`${cases.idCaso}f`}>{`${cases.idCaso}`}</td>)
+              childrenTable.push(<td key={`${cases.idCaso}a`}>{`${cases.type}`}</td>)
+              childrenTable.push(<td key={`${cases.idCaso}b`}>{`${cases.asunto}`}</td>)
+              childrenTable.push(<td key={`${cases.idCaso}c`}>{`${cases.descripcion}`}</td>)
+              childrenTable.push(<td key={`${cases.idCaso}d`}>{`${cases.f_apertura}`}</td>)
+              childrenTable.push(<td key={`${cases.idCaso}j`}>{`${cases.f_mod}`}</td>)
+              childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.userName}`}</td>)
+              childrenTable.push(<td key={`${cases.idCaso}h`}>{`${cases.operador ? cases.operadorName : 'No asignado'}`}</td>)
+              childrenTable.push(<td key={`${cases.idCaso}i`}>{`${cases.status}`}</td>)
+              childrenTable.push(<td key={`${cases.idCaso}g`}><button className='botoniniciar button' onClick={() => this.toEdit(cases)}>Editar</button></td>)
+              table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
+            });
+            console.log("cases =>", table);
+            this.setState({ table: table })
+            return table
           }
-          casesArray.forEach(cases => {
-            console.log("Cases =>", cases)
-            let date = new Date(cases.f_apertura)
-            cases.f_apertura = `${date.getDate()}-${(date.getMonth() + 1)}-${date.getFullYear()}`
-            date = new Date(cases.f_mod)
-            cases.f_mod = `${date.getDate()}-${(date.getMonth() + 1)}-${date.getFullYear()}`
-            let childrenTable = []
-            childrenTable.push(<td key={`${cases.idCaso}f`}>{`${cases.idCaso}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}a`}>{`${cases.type}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}b`}>{`${cases.asunto}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}c`}>{`${cases.descripcion}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}d`}>{`${cases.f_apertura}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}j`}>{`${cases.f_mod}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}e`}>{`${cases.userName}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}h`}>{`${cases.operador ? cases.operadorName : 'No asignado'}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}i`}>{`${cases.status}`}</td>)
-            childrenTable.push(<td key={`${cases.idCaso}g`}><button className='botoniniciar button' onClick={() => this.toEdit(cases)}>Editar</button></td>)
-            table.push(<tr key={cases.idCaso}>{childrenTable}</tr>)
-          });
-          console.log("cases =>", table);
-          this.setState({ table: table })
-          return table
         } else if (response.data.status === 400) {
           toast.error(response.data.message, {
             position: "top-right",
@@ -111,6 +117,24 @@ class ConsultarCasos extends Component {
             pauseOnHover: false,
             draggable: true
           });
+        } else if (response.data.status === 405) {
+          toast.error('Su Sesión ha Expirado', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+          });
+          setTimeout(
+            function () {
+              this.setState({ invalidToken: true });
+              sessionStorage.removeItem('token')
+              sessionStorage.removeItem('userInfo')
+            }
+              .bind(this),
+            3000
+          );
         }
       }).catch(function (error) {
         console.log("There was an error => ", error);
@@ -121,6 +145,7 @@ class ConsultarCasos extends Component {
   render() {
     return (
       <div className="datosPersonales">
+        {this.renderRedirect()}
         {
           this.state.caseToEdit ? <div className='divbtnXIcon'><button onClick={() => this.closeEdit()} className='btnXIcon'><img src={xIcon} alt='img' className='imgXIcon'></img> </button></div>
             : null
@@ -154,10 +179,10 @@ class ConsultarCasos extends Component {
                       : this.state.attrib === "f_apertura" || this.state.attrib === "f_mod"
                         ? <input type="date" name="numCaso" id="numCaso" onChange={this.handleChangeValue} value={this.state.value} className="inputs" placeholder="&nbsp; &nbsp;Número de caso" />
                         : this.state.attrib === "type" ? <select onChange={this.handleChangeValue} value={this.state.value} className='inputs' id="select">
-                            {/* Selecciona opcion */}
-                            <option value="">Seleccionar</option>
-                            <option value="Incidente">Incidente</option>
-                            <option value="Requerimiento">Requerimiento</option>
+                          {/* Selecciona opcion */}
+                          <option value="">Seleccionar</option>
+                          <option value="Incidente">Incidente</option>
+                          <option value="Requerimiento">Requerimiento</option>
                         </select> : <div></div>
                   }
 

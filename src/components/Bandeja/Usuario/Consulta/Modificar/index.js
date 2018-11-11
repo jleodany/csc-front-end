@@ -5,17 +5,34 @@ import passIcon from '../../../../assets/imagenes/cont.png';
 import emailIcon from '../../../../assets/imagenes/email.png';
 import nameIcon from '../../../../assets/imagenes/name.png';
 import { ToastContainer, toast } from 'react-toastify';
+import { Redirect } from 'react-router-dom';
 
 let axios = require("axios");
 
 class ModificarUsuario extends Component {
   constructor(props) {
     super(props);
-    this.state = { id: this.props.userToEdit.id, userName: this.props.userToEdit.userName, pass: '', firstName: this.props.userToEdit.firstName, lastName: this.props.userToEdit.lastName, email: this.props.userToEdit.email, type: this.props.userToEdit.type, registered: false };
+    this.state = {
+      id: this.props.userToEdit.id,
+      userName: this.props.userToEdit.userName,
+      pass: '',
+      firstName: this.props.userToEdit.firstName,
+      lastName: this.props.userToEdit.lastName,
+      email: this.props.userToEdit.email,
+      type: this.props.userToEdit.type,
+      registered: false,
+      invalidToken: false
+    };
     this.growl = {};
     console.log(this.state)
 
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  renderRedirect = () => {
+    if (this.state.invalidToken) {
+      return <Redirect to="/" />
+    }
   }
 
   handleChange(event) {
@@ -144,6 +161,24 @@ class ModificarUsuario extends Component {
                 pauseOnHover: false,
                 draggable: true
               });
+            } else if (response.data.status === 405) {
+              toast.error('Su Sesión ha Expirado', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+              });
+              setTimeout(
+                function () {
+                  this.setState({ invalidToken: true });
+                  sessionStorage.removeItem('token')
+                  sessionStorage.removeItem('userInfo')
+                }
+                  .bind(this),
+                3000
+              );
             }
           }
         }).catch(function (error) {
@@ -255,6 +290,24 @@ class ModificarUsuario extends Component {
                 pauseOnHover: false,
                 draggable: true
               });
+            } else if (response.data.status === 405) {
+              toast.error('Su Sesión ha Expirado', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+              });
+              setTimeout(
+                function () {
+                  this.setState({ invalidToken: true });
+                  sessionStorage.removeItem('token')
+                  sessionStorage.removeItem('userInfo')
+                }
+                  .bind(this),
+                3000
+              );
             }
           }
         }).catch(function (error) {
@@ -267,6 +320,7 @@ class ModificarUsuario extends Component {
   render() {
     return (
       <div className='form'>
+        {this.renderRedirect()}
         {/* Imagen */}
         <div className="logo-registro">
           <img src={logo} alt="Solinca" />

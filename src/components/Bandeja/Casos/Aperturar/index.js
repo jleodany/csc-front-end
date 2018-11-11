@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 let axios = require("axios");
 
@@ -11,16 +12,23 @@ class AperturarCaso extends Component {
       asunto: '',
       descripcion: '',
       file: '',
-      image: ''
+      image: '',
+      invalidToken: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeFile = this.handleChangeFile.bind(this);
   }
 
+  renderRedirect = () => {
+    if (this.state.invalidToken) {
+      return <Redirect to="/" />
+    }
+  }
+
   async handleChangeFile(event) {
     console.log(event.target.files[0])
-    if(event.target.files[0]){
-      if(event.target.files[0].type === "image/jpeg" || event.target.files[0].type === "image/png"){
+    if (event.target.files[0]) {
+      if (event.target.files[0].type === "image/jpeg" || event.target.files[0].type === "image/png") {
         let reader = new FileReader()
         reader.onload = async (e) => {
           await this.setState({ image: e.target.result })
@@ -82,6 +90,24 @@ class AperturarCaso extends Component {
               pauseOnHover: false,
               draggable: true
             });
+          } else if (response.data.status === 405) {
+            toast.error('Su Sesión ha Expirado', {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+            });
+            setTimeout(
+              function () {
+                this.setState({ invalidToken: true });
+                sessionStorage.removeItem('token')
+                sessionStorage.removeItem('userInfo')
+              }
+                .bind(this),
+              3000
+            );
           }
         }
       }).catch(function (error) {
@@ -172,6 +198,24 @@ class AperturarCaso extends Component {
                 pauseOnHover: false,
                 draggable: true
               });
+            } else if (response.data.status === 405) {
+              toast.error('Su Sesión ha Expirado', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+              });
+              setTimeout(
+                function () {
+                  this.setState({ invalidToken: true });
+                  sessionStorage.removeItem('token')
+                  sessionStorage.removeItem('userInfo')
+                }
+                  .bind(this),
+                3000
+              );
             }
           }
         }).catch(function (error) {
@@ -184,6 +228,7 @@ class AperturarCaso extends Component {
   render() {
     return (
       <div className="datosPersonales">
+        {this.renderRedirect()}
         <div className='formCasos'>
           <div className="formDiv">
             <div className="w100 w1002">

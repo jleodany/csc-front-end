@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import ModificarUsuario from './Modificar'
+import { Redirect } from 'react-router-dom';
 import xIcon from '../../../assets/imagenes/x-mark.png'
 
 let axios = require("axios");
@@ -20,13 +21,20 @@ class ConsultarUsuario extends Component {
     // }
     this.state = {
       table: <tr></tr>,
-      userToEdit: null
+      userToEdit: null,
+      invalidToken: false
     }
     this.showUsers()
   }
 
+  renderRedirect = () => {
+    if (this.state.invalidToken) {
+      return <Redirect to="/" />
+    }
+  }
+
   toEdit(userToEdit) {
-    this.setState({userToEdit: userToEdit})
+    this.setState({ userToEdit: userToEdit })
   }
 
   toDelete(userToDelete) {
@@ -61,6 +69,24 @@ class ConsultarUsuario extends Component {
           pauseOnHover: false,
           draggable: true
         });
+      } else if (response.data.status === 405) {
+        toast.error('Su Sesión ha Expirado', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+        });
+        setTimeout(
+          function () {
+            this.setState({ invalidToken: true });
+            sessionStorage.removeItem('token')
+            sessionStorage.removeItem('userInfo')
+          }
+            .bind(this),
+          3000
+        );
       }
     }).catch(function (error) {
       console.log("There was an error => ", error);
@@ -87,7 +113,7 @@ class ConsultarUsuario extends Component {
           children.push(<td key={`${user.id}b`}>{`${user.firstName} ${user.lastName}`}</td>)
           children.push(<td key={`${user.id}c`}>{`${user.email}`}</td>)
           children.push(<td key={`${user.id}d`}><button className='botoniniciar button' onClick={() => this.toEdit(user)}>Editar</button><button className='botoniniciar button botoneliminar' onClick={() => this.toDelete(user)}>Eliminar</button></td>)
-          if(user.id !== JSON.parse(sessionStorage.getItem('userInfo')).id){
+          if (user.id !== JSON.parse(sessionStorage.getItem('userInfo')).id) {
             table.push(<tr key={user.id}>{children}</tr>)
           }
         });
@@ -103,57 +129,76 @@ class ConsultarUsuario extends Component {
           pauseOnHover: false,
           draggable: true
         });
+      } else if (response.data.status === 405) {
+        toast.error('Su Sesión ha Expirado', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+        });
+        setTimeout(
+          function () {
+            this.setState({ invalidToken: true });
+            sessionStorage.removeItem('token')
+            sessionStorage.removeItem('userInfo')
+          }
+            .bind(this),
+          3000
+        );
       }
     }).catch(function (error) {
       console.log("There was an error => ", error);
     })
   }
 
-  closeEdit(){
-    this.setState({userToEdit: null})
+  closeEdit() {
+    this.setState({ userToEdit: null })
     this.showUsers()
   }
 
   render() {
     return (
       <div className="main">
-      {
-        this.state.userToEdit ? <div className='divbtnXIcon'><button onClick={() => this.closeEdit()} className='btnXIcon'><img src={xIcon} alt='img' className='imgXIcon'></img> </button></div>
-        : null
-      }
-      {
-        this.state.userToEdit ? <div className="datosPersonales"><ModificarUsuario userToEdit={this.state.userToEdit}/></div>
-        : <div className="datosPersonales">
-          <h1>Usuarios Registrados</h1>
-          <div className="formDiv tablas">
-            <table>
-              <tbody>
-                <tr>
-                  <th>UserName</th>
-                  <th>Nombre Natural</th>
-                  <th>Correo Electrónico</th>
-                  <th>Opciones</th>
-                </tr>
-                {this.state.table}
-              </tbody>
-            </table>
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl
-              pauseOnVisibilityChange
-              draggable
-              pauseOnHover={false}
-              closeButton={false}
-              pauseOnFocusLoss={false}
-            />
+        {this.renderRedirect()}
+        {
+          this.state.userToEdit ? <div className='divbtnXIcon'><button onClick={() => this.closeEdit()} className='btnXIcon'><img src={xIcon} alt='img' className='imgXIcon'></img> </button></div>
+            : null
+        }
+        {
+          this.state.userToEdit ? <div className="datosPersonales"><ModificarUsuario userToEdit={this.state.userToEdit} /></div>
+            : <div className="datosPersonales">
+              <h1>Usuarios Registrados</h1>
+              <div className="formDiv tablas">
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>UserName</th>
+                      <th>Nombre Natural</th>
+                      <th>Correo Electrónico</th>
+                      <th>Opciones</th>
+                    </tr>
+                    {this.state.table}
+                  </tbody>
+                </table>
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl
+                  pauseOnVisibilityChange
+                  draggable
+                  pauseOnHover={false}
+                  closeButton={false}
+                  pauseOnFocusLoss={false}
+                />
 
-          </div>
-        </div>
-      }
+              </div>
+            </div>
+        }
       </div>
     )
   }

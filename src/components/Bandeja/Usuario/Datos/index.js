@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import userIcon from '../../../assets/imagenes/user.png';
 import passIcon from '../../../assets/imagenes/cont.png';
@@ -17,8 +18,15 @@ class DatosUsuario extends Component {
       email: "",
       userName: "",
       passWord: "",
+      invalidToken: false
     }
     this.showUserData()
+  }
+
+  renderRedirect = () => {
+    if (this.state.invalidToken) {
+      return <Redirect to="/" />
+    }
   }
 
   showUserData = () => {
@@ -50,6 +58,24 @@ class DatosUsuario extends Component {
           pauseOnHover: false,
           draggable: true
         });
+      } else if (response.data.status === 405) {
+        toast.error('Su Sesión ha Expirado', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+        });
+        setTimeout(
+          function () {
+            this.setState({ invalidToken: true });
+            sessionStorage.removeItem('token')
+            sessionStorage.removeItem('userInfo')
+          }
+            .bind(this),
+          3000
+        );
       }
     }).catch(function (error) {
       console.log("There was an error => ", error);
@@ -70,6 +96,7 @@ class DatosUsuario extends Component {
   render() {
     return (
       <div className="datosPersonales">
+        {this.renderRedirect()}
         <h1>Datos Personales</h1>
         <div className="formDiv divDataUsuario">
           {/* Nombre */}
@@ -116,8 +143,8 @@ class DatosUsuario extends Component {
 
 
           {/* Modificar usuario */}
-            <button className="botoniniciar button">
-              Modificar
+          <button className="botoniniciar button">
+            Modificar
 						</button>
           <ToastContainer
             position="top-right"

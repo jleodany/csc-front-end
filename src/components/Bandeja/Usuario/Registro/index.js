@@ -4,6 +4,7 @@ import userIcon from '../../../assets/imagenes/user.png';
 import passIcon from '../../../assets/imagenes/cont.png';
 import emailIcon from '../../../assets/imagenes/email.png';
 import nameIcon from '../../../assets/imagenes/name.png';
+import { Redirect } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 let axios = require("axios");
@@ -12,17 +13,25 @@ class RegistrarUsuario extends Component {
 
 	constructor() {
 		super();
-		this.state = { id: null, 
+		this.state = {
+			id: null,
 			userName: '',
-			pass: '', 
-			firstName: '', 
-			lastName: '', 
-			email: '', 
-			type: '', 
+			pass: '',
+			firstName: '',
+			lastName: '',
+			email: '',
+			type: '',
 			registered: false,
-			};
+			invalidToken: false
+		};
 
 		this.handleChange = this.handleChange.bind(this);
+	}
+
+	renderRedirect = () => {
+		if (this.state.invalidToken) {
+			return <Redirect to="/" />
+		}
 	}
 
 	handleChange(propertyName, event) {
@@ -34,189 +43,200 @@ class RegistrarUsuario extends Component {
 		// Debe estar, para que se actualice el valor de la variable.
 		let data = this.state
 		// const regex = /^[a-zA-Z ]+$/;
-		switch(propertyName){
+		switch (propertyName) {
 			case 'firstName':
-			if(value==='' ||  /^[a-zA-Z ]+$/.test(value)){
-				data[propertyName] = value;
-				this.setState({name: data});
-			}
-			break;
+				if (value === '' || /^[a-zA-Z ]+$/.test(value)) {
+					data[propertyName] = value;
+					this.setState({ name: data });
+				}
+				break;
 			case 'lastName':
-			if(value==='' ||  /^[a-zA-Z ]+$/.test(value)){
-				data[propertyName] = value;
-				this.setState({name: data});
-			}
-			break;
+				if (value === '' || /^[a-zA-Z ]+$/.test(value)) {
+					data[propertyName] = value;
+					this.setState({ name: data });
+				}
+				break;
 
 			case 'email':
-			this.setState({[name]:value});
-			break;
+				this.setState({ [name]: value });
+				break;
 
 			case 'userName':
-			this.setState({[name]:value});
-			break;
+				this.setState({ [name]: value });
+				break;
 
 			case 'pass':
-			this.setState({[name]:value});
-			break;
+				this.setState({ [name]: value });
+				break;
 
 			case 'type':
-			this.setState({[name]:value});
-			break;
+				this.setState({ [name]: value });
+				break;
 			default:
-			break
-		}
-			
+				break
 		}
 
+	}
 
-		// if(value == '' || /^[a-zA-Z ]+$/.test(value)){
-		// 	if(data[propertyName] == data['firstName'] || data[propertyName] == data['lastName']){
-		// 	data[propertyName] = value;
-		// 	this.setState({name: data});
-		// 	// this.setState({
-		// 	// 	[name]: value
-		// 	// });
-		// 	}
-		// 	}
-		// }
-	
+
+	// if(value == '' || /^[a-zA-Z ]+$/.test(value)){
+	// 	if(data[propertyName] == data['firstName'] || data[propertyName] == data['lastName']){
+	// 	data[propertyName] = value;
+	// 	this.setState({name: data});
+	// 	// this.setState({
+	// 	// 	[name]: value
+	// 	// });
+	// 	}
+	// 	}
+	// }
+
 
 
 	registerUser() {
-		if(! toast.isActive(this.toastId)){
-			if(!this.state.firstName){
-			  toast.error('Ingrese un nombre',{
-			  toastId:"errorMsg",
-			  position: "top-right",
-			  autoClose: 3000,
-			  hideProgressBar: false,
-			  closeOnClick: true,
-			  pauseOnHover: false,
-			  draggable: true
-			});
-				}else if(!this.state.lastName){
-					toast.error('Ingrese un apellido',{
-					toastId:"errorMsg2",
+		if (!toast.isActive(this.toastId)) {
+			if (!this.state.firstName) {
+				toast.error('Ingrese un nombre', {
+					toastId: "errorMsg",
 					position: "top-right",
 					autoClose: 3000,
 					hideProgressBar: false,
 					closeOnClick: true,
 					pauseOnHover: false,
 					draggable: true
-					});
-				
-				}else if(!this.state.email || !/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(this.state.email)){
-					toast.error('Ingresa un correo válido',{
-					toastId:"errorMsg3",
+				});
+			} else if (!this.state.lastName) {
+				toast.error('Ingrese un apellido', {
+					toastId: "errorMsg2",
 					position: "top-right",
 					autoClose: 3000,
 					hideProgressBar: false,
 					closeOnClick: true,
 					pauseOnHover: false,
 					draggable: true
-					});
-					}else if(!this.state.userName){
-						toast.error('Ingresa un usuario',{
-						toastId:"errorMsg4",
-						position: "top-right",
-						autoClose: 3000,
-						hideProgressBar: false,
-						closeOnClick: true,
-						pauseOnHover: false,
-						draggable: true
-						});
-						}else if(!this.state.pass || (this.state.pass).length < 6){
-							toast.error('Contraseña inválida, minimo 6 digitos',{
-							toastId:"errorMsg5",
-							position: "top-right",
-							autoClose: 3000,
-							hideProgressBar: false,
-							closeOnClick: true,
-							pauseOnHover: false,
-							draggable: true
+				});
+
+			} else if (!this.state.email || !/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(this.state.email)) {
+				toast.error('Ingresa un correo válido', {
+					toastId: "errorMsg3",
+					position: "top-right",
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: false,
+					draggable: true
+				});
+			} else if (!this.state.userName) {
+				toast.error('Ingresa un usuario', {
+					toastId: "errorMsg4",
+					position: "top-right",
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: false,
+					draggable: true
+				});
+			} else if (!this.state.pass || (this.state.pass).length < 6) {
+				toast.error('Contraseña inválida, minimo 6 digitos', {
+					toastId: "errorMsg5",
+					position: "top-right",
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: false,
+					draggable: true
+				});
+			} else if (!this.state.type) {
+				toast.error('Ingresa un tipo de usuario', {
+					toastId: "errorMsg5",
+					position: "top-right",
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: false,
+					draggable: true
+				});
+			}
+			else if (this.state.firstName && this.state.lastName && this.state.email && this.state.userName && this.state.pass && this.state.type) {
+				axios({
+					method: 'post',
+					url: '../../registerUser',
+					headers: { 'content-type': 'application/json' },
+					data: {
+						id: null,
+						userName: this.state.userName,
+						pass: this.state.pass,
+						firstName: this.state.firstName,
+						lastName: this.state.lastName,
+						email: this.state.email,
+						type: this.state.type,
+						token: sessionStorage.getItem('token')
+					}
+				}).then((response) => {
+					console.log(response);
+					if (!toast.isActive(this.toastId)) {
+						if (response.data.status === 200) {
+							toast.success(response.data.message, {
+								toastId: "sucssMsg",
+								position: "top-right",
+								autoClose: 3000,
+								hideProgressBar: false,
+								closeOnClick: true,
+								pauseOnHover: false,
+								draggable: true,
+								onClose: this.setState({ registered: true })
 							});
-							}else if(!this.state.type){
-								toast.error('Ingresa un tipo de usuario',{
-								toastId:"errorMsg5",
+							this.setState({
+								id: null,
+								userName: '',
+								pass: '',
+								firstName: '',
+								lastName: '',
+								email: '',
+								type: '',
+								registered: false
+							});
+							// this.handleChange(event);
+						} else if (response.data.status === 400) {
+							toast.error(response.data.message, {
+								toastId: "errorMsg",
 								position: "top-right",
 								autoClose: 3000,
 								hideProgressBar: false,
 								closeOnClick: true,
 								pauseOnHover: false,
 								draggable: true
-								});
+							});
+						} else if (response.data.status === 405) {
+							toast.error('Su Sesión ha Expirado', {
+								position: "top-right",
+								autoClose: 3000,
+								hideProgressBar: false,
+								closeOnClick: true,
+								pauseOnHover: false,
+								draggable: true,
+							});
+							setTimeout(
+								function () {
+									this.setState({ invalidToken: true });
+									sessionStorage.removeItem('token')
+									sessionStorage.removeItem('userInfo')
 								}
-							else if(this.state.firstName && this.state.lastName && this.state.email && this.state.userName && this.state.pass && this.state.type){
-							axios({
-							method: 'post',
-							url: '../../registerUser',
-							headers: { 'content-type': 'application/json' },
-							data: {
-								id: null,
-								userName: this.state.userName,
-								pass: this.state.pass,
-								firstName: this.state.firstName,
-								lastName: this.state.lastName,
-								email: this.state.email,
-								type: this.state.type,
-								token: sessionStorage.getItem('token')
-							}
-						}).then((response) => {
-							console.log(response);
-							if(! toast.isActive(this.toastId)){
-							if (response.data.status === 200) {
-								toast.success(response.data.message, {
-									toastId:"sucssMsg",
-									position: "top-right",
-									autoClose: 3000,
-									hideProgressBar: false,
-									closeOnClick: true,
-									pauseOnHover: false,
-									draggable: true,
-									onClose: this.setState({ registered: true })
-								});
-								this.setState({
-									id: null,
-									userName: '',
-									pass: '',
-									firstName: '',
-									lastName: '',
-									email: '',
-									type: '',
-									registered: false
-								});
-								// this.handleChange(event);
-							} else if (response.data.status === 400) {
-								toast.error(response.data.message, {
-									toastId:"errorMsg",
-									position: "top-right",
-									autoClose: 3000,
-									hideProgressBar: false,
-									closeOnClick: true,
-									pauseOnHover: false,
-									draggable: true
-								});
-							}
+									.bind(this),
+								3000
+							);
 						}
-						}).catch(function (error) {
-							console.log("There was an error => ", error);
-						})
 					}
-		}
-	}	
-
-	renderRedirect = () => {
-		console.log("renderRedirect")
-		if (this.state.registered) {
-			console.log("shouldRedirect")
-			// return <Redirect to="/bandeja" />
+				}).catch(function (error) {
+					console.log("There was an error => ", error);
+				})
+			}
 		}
 	}
 
 	render() {
 		return (
 			<div className='form'>
+				{this.renderRedirect()}
 				{/* Imagen */}
 				<div className="logo-registro">
 					<img src={logo} alt="Solinca" />
