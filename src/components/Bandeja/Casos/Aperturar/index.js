@@ -230,7 +230,7 @@ class AperturarCaso extends Component {
       <div className="datosPersonales">
         {this.renderRedirect()}
         <div className='formCasos'>
-          <div className="formDiv">
+          <div className="formDivCase">
             <div className="w100 w1002">
               <h2>APERTURAR CASO</h2>
               <select className='inputs' name="type" value={this.state.type} onChange={this.handleChange}>

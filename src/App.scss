@@ -82,6 +82,14 @@ fieldset {
 }
 
 .formDiv {
+    height: auto;
+    // display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 30%;
+    align-items: center;
+}
+.formDivCase {
     height: 100%;
     // display: flex;
     flex-direction: column;
@@ -92,6 +100,14 @@ fieldset {
 
 @media (max-width: 1024px) {
     .formDiv {
+        height: auto;
+        // display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 40%;
+        align-items: center;
+    }
+    .formDivCase {
         height: 100%;
         // display: flex;
         flex-direction: column;
@@ -103,6 +119,14 @@ fieldset {
 
 @media (max-width: 768px) {
     .formDiv {
+        height: auto;
+        // display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 50%;
+        align-items: center;
+    }
+    .formDivCase {
         height: 100%;
         // display: flex;
         flex-direction: column;
@@ -114,6 +138,14 @@ fieldset {
 
 @media (max-width: 668px) {
     .formDiv {
+        height: auto;
+        // display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 70%;
+        align-items: center;
+    }
+    .formDivCase {
         height: 100%;
         // display: flex;
         flex-direction: column;

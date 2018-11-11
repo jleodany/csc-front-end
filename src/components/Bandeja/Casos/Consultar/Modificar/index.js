@@ -443,7 +443,7 @@ class ModificarCaso extends Component {
     return (
       <div className='formCasos'>
         {this.renderRedirect()}
-        <div className="formDiv">
+        <div className="formDivCase">
           <div className="w100 w1002">
             <h2>MODIFICAR CASO</h2>
             <select className='inputs' name="type" value={this.state.type} onChange={this.handleChange} disabled={this.state.disabled}>
