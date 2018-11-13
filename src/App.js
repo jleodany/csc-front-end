@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Registro';
 import Bandeja from './components/Bandeja';
 import Recuperar from './components/Recuperar';
+import Credenciales from './components/Credenciales';
 // import logo from './logo.svg';
 import './App.css';
 
@@ -21,6 +22,7 @@ class App extends Component {
           <Route path="/register" component={Register}/>
           <Route path="/bandeja" component={Bandeja}/>
           <Route path="/recuperar" component={Recuperar}/>
+          <Route path="/credenciales" component={Credenciales}/>
           {/* <LogIn></LogIn> */}
         </div>
       </Router>

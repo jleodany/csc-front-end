@@ -114,7 +114,6 @@ class RegistrarUsuario extends Component {
 					pauseOnHover: false,
 					draggable: true
 				});
-
 			} else if (!this.state.email || !/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(this.state.email)) {
 				toast.error('Ingresa un correo válido', {
 					toastId: "errorMsg3",

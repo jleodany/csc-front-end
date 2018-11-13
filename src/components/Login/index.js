@@ -12,7 +12,7 @@ class Login extends Component {
 
   constructor(){
     super();
-    this.state = {userName: '', pass: '', loged: false};
+    this.state = {userName: '', pass: '', loged: false, newCredentials: false};
     this.growl = {};
 
     this.handleChange = this.handleChange.bind(this);
@@ -56,7 +56,7 @@ class Login extends Component {
         sessionStorage.setItem('token', response.data.data.token)
         sessionStorage.setItem('userInfo', JSON.stringify(response.data.data.userInfo))
         this.handleChange(event);
-      }else if(! toast.isActive(this.toastId)){
+      }else if(!toast.isActive(this.toastId)){
         if(response.data.status=== 400){
           toast.error(response.data.message,{
             toastId:"errorMsg",
@@ -67,6 +67,25 @@ class Login extends Component {
             pauseOnHover: false,
             draggable: true
           });
+        } else if(response.data.status=== 405){
+          toast.warn(response.data.message,{
+            toastId:"errorMsg",
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true
+          });
+          setTimeout(
+            function () {
+              this.setState({newCredentials: true})
+              sessionStorage.removeItem('token')
+              sessionStorage.removeItem('userInfo')
+            }
+              .bind(this),
+            3000
+          );
         }
       }
     }).catch(function(error){
@@ -78,8 +97,10 @@ class Login extends Component {
     if(this.state.loged){
       return <Redirect to="/bandeja/principal"/>
     }
+    if(this.state.newCredentials){
+      return <Redirect to="/credenciales"/>
+    }
   }
-
 
   render() {
     return (
