@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Principal from './Principal';
 import Casos from './Casos';
 import Usuario from './Usuario'
+import Settings from './Settings'
 import { Redirect } from 'react-router-dom';
 import Logo from '../assets/imagenes/loginImg.png';
 import { logOut } from "./methods";
@@ -28,6 +29,7 @@ class Bandeja extends Component {
     const helpLink = `/ayuda/index.html`
     return (
       <div className="body">
+        {/* <div>Config</div> */}
         {this.redirectLogIn()}
         <nav className="nav-bar">
           <Link onClick={() => this.changeShowingComponent('principal')} to="/bandeja/principal">
@@ -64,19 +66,17 @@ class Bandeja extends Component {
         </nav>
           <div className="App main-content">
           {
-            this.state.toShow === 'principal' ? <Principal />
-            : this.state.toShow === 'casos' ? <Casos toShow={this.state.childComponent}/>
+              this.state.toShow === 'config'    ? <Settings />
+            : this.state.toShow === 'principal' ? <Principal />
+            : this.state.toShow === 'casos'     ? <Casos toShow={this.state.childComponent}/>
             : <Usuario toShow={this.state.childComponent}/>
           }
-
-            {/* <Route path="/bandeja/principal" component={Principal}></Route> */}
-            {/* <Route path="/bandeja" component={Principal}></Route> */}
-            {/* <Route path="/bandeja/casos/consultar" component={Casos}></Route>
-            <Route path="/bandeja/casos/aperturar" component={casosApertura}></Route>
-            <Route path="/bandeja/usuario/consultar" component={consultarUsuario}></Route>
-            <Route path="/bandeja/usuario/registro" component={registrarUsuario}></Route>
-            <Route path="/bandeja/usuario/datos" component={Usuario}></Route> */}
           </div>
+          {
+            JSON.parse(sessionStorage.getItem('userInfo')).type === 1 
+            ? <div className="configLink"><ul><li><Link onClick={() => this.changeShowingComponent('config', 'consultar')} to="/bandeja/settings">Config</Link></li></ul></div>
+            : null
+          }
       </div>
     );
   }

@@ -420,6 +420,32 @@ th {
 .principalImage {
   height: 40vh; }
 
+.configLink {
+  position: fixed;
+  bottom: 0vh;
+  left: 50vw; }
+
+.configLink ul li {
+  padding: 10px;
+  border-right: 1px solid white;
+  display: block;
+  background-color: #0b8585; }
+
+.configLink ul {
+  margin: 0;
+  padding: 0; }
+
+.configLink li {
+  text-decoration: none;
+  padding: 15px 10px;
+  display: block; }
+
+.configLink ul li:hover {
+  background-color: #88d1f0; }
+
+.configLink li:hover > ul {
+  display: block; }
+
 .datosPersonales {
   display: flex;
   flex-direction: column;
