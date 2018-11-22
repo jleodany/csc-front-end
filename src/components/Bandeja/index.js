@@ -72,11 +72,11 @@ class Bandeja extends Component {
             : <Usuario toShow={this.state.childComponent}/>
           }
           </div>
-          {
+          {/* {
             JSON.parse(sessionStorage.getItem('userInfo')).type === 1 
             ? <div className="configLink"><ul><li><Link onClick={() => this.changeShowingComponent('config', 'consultar')} to="/bandeja/settings">Config</Link></li></ul></div>
             : null
-          }
+          } */}
       </div>
     );
   }

@@ -16,6 +16,8 @@ class ModificarCaso extends Component {
       operador: this.props.caseToEdit.operador,
       user: this.props.caseToEdit.user,
       status: this.props.caseToEdit.status,
+      evaluated: this.props.caseToEdit.evaluated,
+      evaluation: this.props.caseToEdit.evaluation,
       fileBool: this.props.caseToEdit.file,
       file: '',
       disabled: this.props.caseToEdit.user === JSON.parse(sessionStorage.getItem('userInfo')).id ? false : true,
@@ -31,9 +33,9 @@ class ModificarCaso extends Component {
           idCaso: this.state.idCaso
         }
       }).then((response) => {
-        if(response.data.status === 200){
+        if (response.data.status === 200) {
           this.setState({ image: `data:image/jpeg;base64, ${response.data.data}` })
-        } else if (response.data.status === 400){
+        } else if (response.data.status === 400) {
           toast.error('Hubo un Error Descargando el Archivo asociado a este Caso', {
             position: "top-right",
             autoClose: 3000,
@@ -286,6 +288,72 @@ class ModificarCaso extends Component {
     }
   }
 
+  evaluate = () => {
+    if (this.state.operador == null) {
+      toast.error('Debe Seleccionar un Operador para asignarlo', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true
+      });
+    } else {
+      axios({
+        method: 'post',
+        url: '../../../evaluate',
+        headers: { 'content-type': 'application/json' },
+        data: {
+          idCaso: this.state.idCaso,
+          evaluation: this.state.evaluation,
+          token: sessionStorage.getItem('token')
+        }
+      }).then((response) => {
+        console.log(response);
+        if (response.data.status === 200) {
+          toast.success(response.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            onClose: this.setState({ evaluated: 1 })
+          });
+        } else if (response.data.status === 400) {
+          toast.error(response.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true
+          });
+        } else if (response.data.status === 405) {
+          toast.error('Su Sesión ha Expirado', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+          });
+          setTimeout(
+            function () {
+              this.setState({ invalidToken: true });
+              sessionStorage.removeItem('token')
+              sessionStorage.removeItem('userInfo')
+            }
+              .bind(this),
+            3000
+          );
+        }
+      }).catch(function (error) {
+        console.log("There was an error => ", error);
+      })
+    }
+  }
+
   changeStatus(status) {
     axios({
       method: 'post',
@@ -473,6 +541,24 @@ class ModificarCaso extends Component {
                 </div>
                 : null
             }
+            <div className='basic-div'>
+              {
+                this.state.status !== 'PENDIENTE' && (JSON.parse(sessionStorage.getItem('userInfo')).id === this.state.user && this.state.evaluated === 0) || (JSON.parse(sessionStorage.getItem('userInfo')).id === this.state.operador && this.state.evaluated !== 0) ?
+
+                  <select className='inputs' name="evaluation" value={this.state.evaluation} onChange={this.handleChange} disabled={this.state.disabled}>
+                    <option value={null}>Puntaje</option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
+                  </select>
+                  : null
+              }{this.state.status !== 'PENDIENTE' && JSON.parse(sessionStorage.getItem('userInfo')).id === this.state.user && this.state.evaluated === 0
+                ? <input type="submit" className="botoniniciar button" value="Evaluar" onClick={this.evaluate} />
+                : null}
+
+            </div>
             {/* Adjuntar */}
             <input type="file" name="adjuntar" onChange={this.handleChangeFile} className='inputs' />
             {
