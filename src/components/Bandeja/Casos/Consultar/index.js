@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Redirect } from 'react-router-dom';
 import ModificarCaso from './Modificar'
 import xIcon from '../../../assets/imagenes/x-mark.png'
+import { userInfo } from 'os';
 let axios = require("axios");
 
 class ConsultarCasos extends Component {
@@ -65,7 +66,8 @@ class ConsultarCasos extends Component {
           params: this.state.attrib === "0" ? false : true,
           value: this.state.attrib === "f_apertura" || this.state.attrib === "f_mod" ? new Date(this.state.value).setHours(24, 0, 0, 0) : this.state.value,
           attrib: this.state.attrib,
-          token: sessionStorage.getItem('token')
+          token: sessionStorage.getItem('token'),
+          userInfo: JSON.parse(sessionStorage.getItem('userInfo')).type
         }
       }).then((response) => {
         console.log(response);
