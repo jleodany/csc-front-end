@@ -70,8 +70,8 @@ class ConsultarCasos extends Component {
           userInfo: JSON.parse(sessionStorage.getItem('userInfo')).type
         }
       }).then((response) => {
-        console.log(response);
-        if (!toast.isActive(this.toastId)) {
+        console.log(response.data.status);
+        // if (!toast.isActive(this.toastId)) {
           let table = []
           const casesArray = response.data.data
           if (response.data.status === 200) {
@@ -109,35 +109,36 @@ class ConsultarCasos extends Component {
             console.log("cases =>", table);
             this.setState({ table: table })
             return table
+          } else if (response.data.status === 400) {
+            toast.error(response.data.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true
+            });
+          } else if (response.data.status === 405) {
+            console.log('it is inside')
+            toast.error('Su Sesión ha Expirado', {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+            });
+            setTimeout(
+              function () {
+                this.setState({ invalidToken: true });
+                sessionStorage.removeItem('token')
+                sessionStorage.removeItem('userInfo')
+              }
+                .bind(this),
+              3000
+            );
           }
-        } else if (response.data.status === 400) {
-          toast.error(response.data.message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true
-          });
-        } else if (response.data.status === 405) {
-          toast.error('Su Sesión ha Expirado', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-          });
-          setTimeout(
-            function () {
-              this.setState({ invalidToken: true });
-              sessionStorage.removeItem('token')
-              sessionStorage.removeItem('userInfo')
-            }
-              .bind(this),
-            3000
-          );
-        }
+        // }
       }).catch(function (error) {
         console.log("There was an error => ", error);
       })

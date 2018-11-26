@@ -12,7 +12,7 @@ class Recuperar extends Component {
 
   constructor(){
     super();
-    this.state = {userName: null};
+    this.state = {userName: '', button: false};
     this.growl = {};
     this.handleChange = this.handleChange.bind(this);
   }
@@ -30,6 +30,7 @@ class Recuperar extends Component {
   }
 
   notify = () => {
+    this.setState({button: true})
     if(! toast.isActive(this.toastId)){
       if(!this.state.userName){
         toast.error('Ingresa tu nombre de usuario',{
@@ -50,7 +51,6 @@ class Recuperar extends Component {
           userName: this.state.userName
         }
       }).then((response) => {
-       
         if(response.data.status === 200){
           toast.success(response.data.message, {
             toastId: "sucssMsg",
@@ -62,7 +62,7 @@ class Recuperar extends Component {
             draggable: true,
             onClose: this.setState({ registered: true })
           });
-          this.setState({userName: ''})
+          this.setState({userName: '', button: false})
         } else {
           toast.error(response.data.message, {
             toastId: "errorMsg",
@@ -73,6 +73,7 @@ class Recuperar extends Component {
             pauseOnHover: false,
             draggable: true
           });
+          this.setState({userName: '', button: false})
         }
       }).catch(function(error){
         console.log("There was an error => ", error);
@@ -112,7 +113,7 @@ class Recuperar extends Component {
 
               {/* Enviar correo */}
               <div className="w100 basic-div divFather">
-                <button className="botoniniciar button" onClick={this.notify}>
+                <button className="botoniniciar button" onClick={this.notify} disabled={this.state.button}>
                   Solicitar código
                 </button>
                 <ToastContainer
