@@ -30,6 +30,18 @@ class Recuperar extends Component {
   }
 
   notify = () => {
+    if(! toast.isActive(this.toastId)){
+      if(!this.state.userName){
+        toast.error('Ingresa tu nombre de usuario',{
+        toastId:"errorMsg4",
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true
+        });
+      }else if(this.state.userName){
       axios({
         method: 'post',
         url: 'changePass',
@@ -38,6 +50,7 @@ class Recuperar extends Component {
           userName: this.state.userName
         }
       }).then((response) => {
+       
         if(response.data.status === 200){
           toast.success(response.data.message, {
             toastId: "sucssMsg",
@@ -52,6 +65,7 @@ class Recuperar extends Component {
           this.setState({userName: ''})
         } else {
           toast.error(response.data.message, {
+            toastId: "errorMsg",
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -63,6 +77,8 @@ class Recuperar extends Component {
       }).catch(function(error){
         console.log("There was an error => ", error);
       })
+    }
+    }
     // toast('Mensaje enviado a su correo, verifique',{
     //   position: "top-right",
     //   autoClose: 3000,
